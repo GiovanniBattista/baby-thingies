@@ -1,0 +1,44 @@
+{
+  "name": "water-temperature-calculator-f7",
+  "private": true,
+  "version": "1.0.0",
+  "description": "water-temperature-calculator-f7",
+  "repository": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "cross-env NODE_ENV=production vite build",
+    "postinstall": "cpy --flat ./node_modules/framework7-icons/fonts/*.* ./src/fonts/ && cpy --flat ./node_modules/material-icons/iconfont/*.* ./src/fonts/"
+  },
+  "browserslist": [
+    "IOS >= 13",
+    "Safari >= 13",
+    "last 5 Chrome versions",
+    "last 5 Firefox versions",
+    "Samsung >= 12"
+  ],
+  "dependencies": {
+    "@vuelidate/core": "^2.0.0-alpha.41",
+    "@vuelidate/validators": "^2.0.0-alpha.29",
+    "dom7": "^4.0.4",
+    "framework7": "^7.0.2",
+    "framework7-icons": "^5.0.5",
+    "framework7-vue": "^7.0.2",
+    "gaussian-elimination": "^1.0.2",
+    "material-icons": "^1.10.11",
+    "skeleton-elements": "^4.0.0",
+    "swiper": "^8.1.4",
+    "vue": "^3.2.33",
+    "vuelidate": "^0.7.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/compiler-sfc": "^3.2.33",
+    "cpy-cli": "^4.1.0",
+    "cross-env": "^7.0.3",
+    "postcss-preset-env": "^7.5.0",
+    "sass": "^1.51.0",
+    "vite": "^2.9.9"
+  }
+}

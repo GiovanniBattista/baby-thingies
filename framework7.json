@@ -1,0 +1,19 @@
+{
+  "cwd": "D:\\EigeneDateien\\Daniel\\Dokumente\\github",
+  "type": [
+    "web"
+  ],
+  "name": "water-temperature-calculator-f7",
+  "framework": "vue",
+  "template": "tabs",
+  "cssPreProcessor": "scss",
+  "bundler": "vite",
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkTheme": false,
+    "iconFonts": true,
+    "fillBars": false
+  },
+  "customBuild": false
+}
