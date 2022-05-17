@@ -40,13 +40,11 @@
 <script>
 import useValidate from '@vuelidate/core'
 import { required, minValue, decimal } from '@vuelidate/validators'
-import FormControlError from '../components/FormControlError.vue'
 
 export default {
   name: "TemperatureCalculatorCurrentTemperatures",
 
   components: {
-    FormControlError
   },
 
   setup() {

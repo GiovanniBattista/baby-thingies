@@ -25,43 +25,6 @@
           clear-button
         />
       </f7-list>
-      <!--
-      <div class="accordion-body">
-        <div class="mb-3">
-          <label for="targetAmount" class="form-label">Menge (ml)</label>
-
-          <div class="input-group has-validation">
-            <input 
-              name="targetAmount" 
-              type="number" 
-              v-model="targetAmount" 
-              class="form-control" 
-              :class="{ 'is-invalid': v$.targetAmount.$error }"
-              @change="$emit('update:amount', $event.target.value)">  
-            <span class="input-group-text">ml</span>
-            <form-control-error
-              :errors="v$.targetAmount.$errors"
-            ></form-control-error>
-          </div>
-        </div>
-        <div>
-          <label for="targetTemperature" class="form-label">Zieltemperatur</label>
-          <div class="input-group has-validation">
-            <input 
-              name="targetTemperature" 
-              type="number" 
-              v-model="targetTemperature" 
-              class="form-control" 
-              :class="{ 'is-invalid': v$.targetTemperature.$error }"
-              @change="$emit('update:temperature', $event.target.value)">
-            <span class="input-group-text">°C</span>
-            <form-control-error
-              :errors="v$.targetTemperature.$errors"
-            ></form-control-error>
-          </div>
-        </div>
-      </div>
-      -->
     </f7-accordion-content>
   </f7-list-item>
 </template>
@@ -69,14 +32,12 @@
 <script>
 import useValidate from '@vuelidate/core'
 import { required, minValue, decimal } from '@vuelidate/validators'
-import FormControlError from '../components/FormControlError.vue'
 
 export default {
 
   name: "TemperatureCalculatorTargetValues",
 
   components: {
-    FormControlError
   },
 
   props: { 
