@@ -1,5 +1,5 @@
 <template>
-  <h3>Ergebnis:</h3>
+  <f7-block-title>Benötigte Mengen</f7-block-title>
     <f7-row>
       <f7-col>
         <span class="result-text">Heißes Wasser </span>

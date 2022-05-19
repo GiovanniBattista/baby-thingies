@@ -32,10 +32,12 @@
         Bitte zuerst alles korrekt ausfüllen!
       </div>
 
-      <temperature-calculator-calculated-amounts
-        :hot="calculatedHotWaterAmount"
-        :cold="calculatedColdWaterAmount">
-      </temperature-calculator-calculated-amounts>
+      <f7-block>
+        <temperature-calculator-calculated-amounts
+          :hot="calculatedHotWaterAmount"
+          :cold="calculatedColdWaterAmount">
+        </temperature-calculator-calculated-amounts>
+      </f7-block>
   </f7-page>
 </template>
 

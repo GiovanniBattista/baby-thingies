@@ -8,7 +8,7 @@
           label="Menge (ml)"
           type="number"
           v-model:value="targetAmount"
-          @change="$emit('update:amount', $event.target.value)"
+          @change="$emit('update:amount', parseInt($event.target.value))"
           floating-label
           outline
           clear-button
@@ -19,7 +19,7 @@
           label="Zieltemperatur"
           type="number" 
           v-model:value="targetTemperature" 
-          @change="$emit('update:temperature', $event.target.value)"
+          @change="$emit('update:temperature', parseInt($event.target.value))"
           outline
           floating-label
           clear-button
