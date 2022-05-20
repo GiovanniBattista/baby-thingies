@@ -1,8 +1,6 @@
 <template>
   <div class="tracker-margin">
-    <div class="tracker-button-container">
-      <button class="tracker-button" @click="toggleShowButtons">Flasche</button>
-    </div>
+    <needs-tracker-tracking-button @click="toggleShowButtons" title="Flasche"></needs-tracker-tracking-button>
 
     <div v-if="showButtons" class="tracker-button-margin">
       <f7-stepper :value="100" :min="60" :max="200" :step="5" :autorepeat="true" @change="$emit('track:feeding', parseInt($event.target.value))"></f7-stepper>
@@ -11,8 +9,12 @@
 </template>
 
 <script>
+import NeedsTrackerTrackingButton from './NeedsTrackerTrackingButton.vue';
+
 export default {
   name: "NeedsTrackerFeeding",
+
+  components: { NeedsTrackerTrackingButton },
 
   emits: ['track:feeding'],
   

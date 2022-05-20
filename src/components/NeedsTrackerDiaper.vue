@@ -1,8 +1,6 @@
 <template>
-  <div >
-    <div class="tracker-button-container">
-      <button class="tracker-button" @click="toggleShowButtons">Windel</button>
-    </div>
+  <div>
+    <needs-tracker-tracking-button @click="toggleShowButtons" title="Windel"></needs-tracker-tracking-button>
 
     <div v-if="showButtons" class="tracker-button-margin">
       <f7-row>
@@ -22,8 +20,12 @@
 </template>
 
 <script>
+import NeedsTrackerTrackingButton from './NeedsTrackerTrackingButton.vue';
+
 export default {
   name: "NeedsTrackerDiaper",
+
+  components: { NeedsTrackerTrackingButton },
 
   emits: ['track:diaper'],
 

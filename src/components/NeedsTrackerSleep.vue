@@ -1,8 +1,6 @@
 <template>
   <div class="tracker-margin">
-    <div class="tracker-button-container">
-      <button class="tracker-button" @click="toggleShowButtons">Schlaf</button>
-    </div>
+    <needs-tracker-tracking-button @click="toggleShowButtons" title="Schlaf"></needs-tracker-tracking-button>
 
     <div v-if="showButton" class="tracker-button-margin">
       <f7-button outline v-if="timerStarted" @click="toggleTimerStarted">Stoppen</f7-button>
@@ -12,9 +10,12 @@
 </template>
 
 <script>
+import NeedsTrackerTrackingButton from './NeedsTrackerTrackingButton.vue';
+
 export default {
   name: "NeedsTrackerSleep",
 
+  components: { NeedsTrackerTrackingButton },
   emits: ['track:sleepStart', 'track:sleepEnd'],
   
   data() {

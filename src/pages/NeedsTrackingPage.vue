@@ -22,8 +22,15 @@
       </div>
     </f7-block>
     <f7-block>
-      <f7-button outline @click="saveRecording" fill color="green" :disabled="!wasTracked">✅ Speichern</f7-button>
-      <f7-button outline @click="revertScreen" v-if="wasTracked" style="margin-top: 5px">🔙 Zurücksetzen</f7-button>
+      <f7-row>
+        <f7-col>
+          <f7-button outline @click="saveRecording" fill color="green" :disabled="!wasTracked">✅ Speichern</f7-button>
+        </f7-col>
+        <f7-col>
+          <f7-button outline @click="revertScreen" :disabled="!wasTracked">🔙 Zurücksetzen</f7-button>
+        </f7-col>
+      </f7-row>
+      
     </f7-block>
 
     <f7-block>
@@ -58,6 +65,7 @@ export default {
       recordType: null,
       recordContent: null,
       wasTracked: false,
+      wasChanged: false,
       resetChildComponents: false,
       componentKey: 0,
       history: useStore('trackingHistory'),
