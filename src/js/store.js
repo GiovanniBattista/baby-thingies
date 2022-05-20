@@ -36,6 +36,11 @@ const store = createStore({
       })
       state.trackingHistory = [...state.trackingHistory, eventRecord];
     },
+    async deleteAllTrackingRecords({state}) {
+      await db.open()
+      await db.tracking_history.clear()
+      state.trackingHistory = []
+    }
   },
 })
 export default store;

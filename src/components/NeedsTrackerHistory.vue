@@ -15,6 +15,10 @@
     </div>
 
   </div>
+
+  <f7-block>
+    <f7-button outline color="red" v-if="history.length" @click="$emit('history:deleteAll')">❌ Alles Löschen</f7-button>
+  </f7-block>
 </template>
 
 <script>
@@ -24,6 +28,8 @@ const FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
 
 export default {
   name: "NeedsTrackerHistory",
+
+  emits: [ 'history:deleteAll' ],
   
   data() {
     return {};

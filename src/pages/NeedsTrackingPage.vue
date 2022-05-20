@@ -27,7 +27,7 @@
     </f7-block>
 
     <f7-block>
-      <needs-tracker-history :history="history"></needs-tracker-history>
+      <needs-tracker-history :history="history" @history:delete-all="deleteAllTrackingRecords"></needs-tracker-history>
     </f7-block>
   </f7-page>
 </template>
@@ -106,6 +106,9 @@ export default {
       this.recordContent = null
       this.wasTracked = false
       this.componentKey += 1
+    },
+    deleteAllTrackingRecords() {
+      store.dispatch('deleteAllTrackingRecords')
     }
   },
 };
