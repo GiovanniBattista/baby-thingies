@@ -22,8 +22,8 @@
       </div>
     </f7-block>
     <f7-block>
-      <f7-button outline @click="saveRecording" :disabled="!wasTracked">✅ Speichern</f7-button>
-      <f7-button outline color="red" v-if="wasTracked" style="margin-top: 5px" >Löschen</f7-button>
+      <f7-button outline @click="saveRecording" fill color="green" :disabled="!wasTracked">✅ Speichern</f7-button>
+      <f7-button outline @click="revertScreen" v-if="wasTracked" style="margin-top: 5px">🔙 Zurücksetzen</f7-button>
     </f7-block>
 
     <f7-block>
@@ -99,6 +99,9 @@ export default {
 
       this.history.push(record)
       // clear all recordings
+      this.revertScreen()
+    },
+    revertScreen() {
       this.recordType = null
       this.recordContent = null
       this.wasTracked = false
