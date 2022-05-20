@@ -1,1 +1,26 @@
 /* Your app custom styles here */
+
+$tracker-button-height: 100px;
+
+.tracker-button-container {
+  width: $tracker-button-height;
+  margin: 0 auto;
+}
+
+.tracker-margin {
+  margin-top: 50px;
+}
+
+.tracker-button {
+  display: inline-block;
+  height: $tracker-button-height;
+  width: $tracker-button-height;
+  background-color: lightblue;
+  border-radius: calc($tracker-button-height/2);
+  text-align: center;
+  line-height: $tracker-button-height;
+}
+
+.tracker-button-margin {
+  margin-top: 5px;
+}
