@@ -2,8 +2,9 @@
   <div class="timeline">
 
     <div class="timeline-item" v-for="(entry,index) in this.history" :key="index">
-      <div class="timeline-item-time" v-if="entry.instant">{{ this.formatTime(entry.instant) }}</div>
-      <div class="timeline-item-time" v-else></div>
+      <div class="timeline-item-time">{{ this.formatTime(entry.from) }}
+        <span v-if="entry.to"> - {{ entry.to}}</span>
+      </div>
       <div class="timeline-item-divider"></div>
       <div class="timeline-item-content">
         <div class="timeline-item-inner">

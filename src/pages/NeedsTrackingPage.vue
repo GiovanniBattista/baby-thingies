@@ -40,8 +40,10 @@ import NeedsTrackerHistory from '../components/NeedsTrackerHistory.vue';
 
 import { LocalTime } from '@js-joda/core';
 
+import { useStore } from 'framework7-vue';
+import store from '../js/store'
+
 export default {
-  components: { NeedsTrackerFeeding },
   name: "NeedsTrackingPage",
   
   components: {
@@ -58,8 +60,12 @@ export default {
       wasTracked: false,
       resetChildComponents: false,
       componentKey: 0,
-      history: [], // TODO use store for that
+      history: useStore('trackingHistory'),
     }
+  },
+
+  mounted() {
+    store.dispatch('loadTrackingEvents')
   },
 
   methods: {
@@ -89,15 +95,9 @@ export default {
     },
     saveRecording() {
       var record = { type: this.recordType, text: this.recordContent }
+      record.from = LocalTime.now()
 
-      if (this.recordType != "Schlaf") {
-        record.instant = LocalTime.now()
-      } else {
-        record.instant = LocalTime.now()
-        // TODO do something here
-      }
-
-      this.history.push(record)
+      store.dispatch('addTrackingEvent', record)
       // clear all recordings
       this.revertScreen()
     },
