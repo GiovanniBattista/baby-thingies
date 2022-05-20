@@ -1,7 +1,5 @@
 <template>
-  <div class="tracker-button-container">
-    <button class="tracker-button" @click="$emit('click')">{{ title }}</button>
-  </div>
+  <f7-button outline @click="$emit('click')" class="tracker-button">{{ title }}</f7-button>
 </template>
 
 <script>
@@ -26,15 +24,11 @@ export default {
 
   .tracker-button-container {
     width: $tracker-button-height;
-    margin: 0 auto;
   }
   .tracker-button {
-    display: inline-block;
     height: $tracker-button-height;
     width: $tracker-button-height;
-    background-color: lightblue;
     border-radius: calc($tracker-button-height/2);
-    text-align: center;
-    line-height: $tracker-button-height;
+    margin: 0 auto;
   }
 </style>
