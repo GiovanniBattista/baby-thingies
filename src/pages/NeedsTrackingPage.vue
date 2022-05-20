@@ -6,7 +6,6 @@
       <div class="row">
         <needs-tracker-diaper 
           @track:diaper="recordDiaper"
-          :reset-component="resetChildComponents"
         ></needs-tracker-diaper>
       </div>
       <div class="row">
@@ -35,6 +34,8 @@ import NeedsTrackerDiaper from '../components/NeedsTrackerDiaper.vue';
 import NeedsTrackerFeeding from '../components/NeedsTrackerFeeding.vue';
 import NeedsTrackerSleep from '../components/NeedsTrackerSleep.vue';
 import NeedsTrackerHistory from '../components/NeedsTrackerHistory.vue';
+
+import { LocalTime } from '@js-joda/core';
 
 export default {
   components: { NeedsTrackerFeeding },
@@ -86,9 +87,9 @@ export default {
       var record = { type: this.recordType, text: this.recordContent }
 
       if (this.recordType != "Schlaf") {
-        record.instant = new Date()
+        record.instant = LocalTime.now()
       } else {
-        record.instant = new Date()
+        record.instant = LocalTime.now()
         // TODO do something here
       }
 
@@ -97,8 +98,6 @@ export default {
       this.recordType = null
       this.recordContent = null
       this.wasTracked = false
-      this.resetChildComponents = true
-      this.resetChildComponents = false
     }
   },
 };
