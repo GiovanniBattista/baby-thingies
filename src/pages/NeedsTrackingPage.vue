@@ -6,15 +6,18 @@
       <div class="row">
         <needs-tracker-diaper 
           @track:diaper="recordDiaper"
+          :key="componentKey"
         ></needs-tracker-diaper>
       </div>
       <div class="row">
         <needs-tracker-feeding
           @track:feeding="recordFeeding"
+          :key="componentKey"
         ></needs-tracker-feeding>
         <needs-tracker-sleep
           @track:sleep-start="recordSleepStart"
           @track:sleep-end="recordSleepEnd"
+          :key="componentKey"
         ></needs-tracker-sleep>
       </div>
     </f7-block>
@@ -54,6 +57,7 @@ export default {
       recordContent: null,
       wasTracked: false,
       resetChildComponents: false,
+      componentKey: 0,
       history: [], // TODO use store for that
     }
   },
@@ -98,6 +102,7 @@ export default {
       this.recordType = null
       this.recordContent = null
       this.wasTracked = false
+      this.componentKey += 1
     }
   },
 };
