@@ -5,15 +5,29 @@
   <f7-views tabs class="safe-areas">
     <!-- Tabbar for switching views-tabs -->
     <f7-toolbar tabbar labels bottom>
-      <f7-link tab-link="#view-watertemp" tab-link-active icon-ios="f7:thermometer" icon-aurora="f7:thermometer" icon-md="f7:thermometer" text="Flasche"></f7-link>
-      <f7-link tab-link="#view-tracking" icon-ios="f7:stopwatch" icon-aurora="f7:stopwatch" icon-md="f7:stopwatch" text="Tracking"></f7-link>
+      <f7-link tab-link="#view-watertemp" :tab-link-active="view2Load == 'view-watertemp'" icon-ios="f7:thermometer" icon-aurora="f7:thermometer" icon-md="f7:thermometer" text="Flasche" @click="setActiveTab('view-watertemp')"></f7-link>
+      <f7-link tab-link="#view-tracking"  :tab-link-active="view2Load == 'view-tracking'" icon-ios="f7:stopwatch" icon-aurora="f7:stopwatch" icon-md="f7:stopwatch" text="Tracking" @click="setActiveTab('view-tracking')"></f7-link>
     </f7-toolbar>
 
     <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
-    <f7-view id="view-watertemp" main tab tab-active url="/"></f7-view>
+    <f7-view 
+      id="view-watertemp" 
+      name="watertemp"
+      :main="view2Load == 'view-watertemp'" 
+      :tab-active="view2Load == 'view-watertemp'" 
+      tab 
+      url="/"
+    ></f7-view>
 
     <!-- Tracking View -->
-    <f7-view id="view-tracking" name="tracking" tab url="/tracking"></f7-view>
+    <f7-view 
+      id="view-tracking" 
+      name="tracking" 
+      :main="view2Load == 'view-tracking'" 
+      :tab-active="view2Load == 'view-tracking'" 
+      tab 
+      url="/tracking"
+    ></f7-view>
 
   </f7-views>
 
@@ -29,6 +43,8 @@
 
   export default {
     setup() {
+
+      const view2Load = localStorage.getItem("view2load") || "view-watertemp"
 
       // Framework7 Parameters
       const f7params = {
@@ -51,6 +67,13 @@
 
       return {
         f7params,
+        view2Load
+      }
+    },
+
+    methods: {
+      setActiveTab( viewId ) {
+        localStorage.setItem('view2load', viewId)
       }
     }
   }
