@@ -51,6 +51,9 @@
         name: 'Baby Thingies', // App name
         theme: 'auto', // Automatic theme detection
 
+        autoDarkMode: true,
+        iosTranslucentBars: false,
+
         // App store
         store: store,
         // App routes
