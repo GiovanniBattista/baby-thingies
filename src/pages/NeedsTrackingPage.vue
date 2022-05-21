@@ -17,6 +17,7 @@
         <needs-tracker-sleep
           @track:sleep-start="recordSleepStart"
           @track:sleep-end="recordSleepEnd"
+          :open-sleep-record-id="openSleepRecord"
           :key="componentKey"
         ></needs-tracker-sleep>
       </div>
@@ -58,22 +59,23 @@ export default {
     NeedsTrackerFeeding,
     NeedsTrackerSleep,
     NeedsTrackerHistory
-},
+  },
+  
+  mounted() {
+    store.dispatch('loadTrackingEvents')
+    store.dispatch('findOpenSleepingRecord')
+  },
 
   data() {
     return {
       recordType: null,
       recordContent: null,
       wasTracked: false,
-      wasChanged: false,
       resetChildComponents: false,
       componentKey: 0,
       history: useStore('trackingHistory'),
+      openSleepRecord: useStore('openSleepRecord'),
     }
-  },
-
-  mounted() {
-    store.dispatch('loadTrackingEvents')
   },
 
   methods: {
@@ -89,29 +91,37 @@ export default {
       this.recordContent = feedAmount + "ml"
       this.wasTracked = true
     },
-    recordSleepStart( time ) {
-      console.log("Sleep started at: ", time)
+    recordSleepStart( ) {
+      console.log("Sleep started")
       this.recordType = "Schlaf"
-      this.recordContent = null
+      this.recordContent = "Schläft gerade"
       this.wasTracked = true
     },
-    recordSleepEnd( time ) {
-      console.log("Sleep ended at: ", time)
+    recordSleepEnd( recordId ) {
+      console.log("Sleep ended; Updating record: ", recordId)
       this.recordType = "Schlaf"
-      this.recordContent = null
+      this.recordId = recordId
       this.wasTracked = true
     },
     saveRecording() {
       var record = { type: this.recordType, text: this.recordContent }
-      record.from = LocalTime.now()
 
-      store.dispatch('addTrackingEvent', record)
+      console.log("RecordID: ", this.recordId)
+      if (this.recordId) {
+        record.id = this.recordId
+        record.to = LocalTime.now()
+        store.dispatch('updateSleepTrackingEvent', record)
+      } else {
+        record.from = LocalTime.now()
+        store.dispatch('addTrackingEvent', record)
+      }
       // clear all recordings
       this.revertScreen()
     },
     revertScreen() {
       this.recordType = null
       this.recordContent = null
+      this.recordId = null
       this.wasTracked = false
       this.componentKey += 1
     },

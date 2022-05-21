@@ -16,12 +16,16 @@ export default {
   name: "NeedsTrackerSleep",
 
   components: { NeedsTrackerTrackingButton },
+
+  props: [ "openSleepRecordId" ],
+
   emits: ['track:sleepStart', 'track:sleepEnd'],
   
   data() {
+    console.log("openSleepRecordId: ", this.openSleepRecordId)
     return {
       showButton: false,
-      timerStarted: false,
+      timerStarted: this.openSleepRecordId ? true : false,
     };
   },
   
@@ -32,9 +36,9 @@ export default {
     toggleTimerStarted() {
       this.timerStarted = !this.timerStarted
       if (this.timerStarted) {
-        this.$emit('track:sleepStart', new Date())
+        this.$emit('track:sleepStart')
       } else {
-        this.$emit('track:sleepEnd', new Date());
+        this.$emit('track:sleepEnd', this.openSleepRecordId);
       }
     }
   },

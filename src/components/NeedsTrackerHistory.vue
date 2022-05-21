@@ -1,9 +1,10 @@
 <template>
   <div class="timeline">
 
-    <div class="timeline-item" v-for="(entry,index) in this.history" :key="index">
+    <div class="timeline-item" v-for="(entry) in this.history" :key="entry.id">
       <div class="timeline-item-time">{{ this.formatTime(entry.from) }}
-        <span v-if="entry.to"> - {{ entry.to}}</span>
+        <span v-if="entry.to"><br>-<br></span>
+        <span v-if="entry.to">{{ entry.to}}</span>
       </div>
       <div class="timeline-item-divider"></div>
       <div class="timeline-item-content">
