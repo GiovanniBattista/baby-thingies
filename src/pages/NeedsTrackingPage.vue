@@ -4,30 +4,39 @@
 
     <f7-block>
       <div class="row">
-        <needs-tracker-diaper 
-          @track:diaper="recordDiaper"
-          :key="componentKey"
-        ></needs-tracker-diaper>
+        <needs-tracker-tracking-button @click="recordType='Windel'" title="Windel"></needs-tracker-tracking-button>
       </div>
       <div class="row">
-        <needs-tracker-feeding
-          @track:feeding="recordFeeding"
-          :key="componentKey"
-        ></needs-tracker-feeding>
-        <needs-tracker-sleep
-          @track:sleep-start="recordSleepStart"
-          @track:sleep-end="recordSleepEnd"
-          :key="componentKey"
-        ></needs-tracker-sleep>
+        <needs-tracker-tracking-button @click="recordType='Flasche'" title="Flasche"></needs-tracker-tracking-button>
+        <needs-tracker-tracking-button @click="recordType='Schlaf'"  title="Schlaf"></needs-tracker-tracking-button>
       </div>
     </f7-block>
+
+    <f7-block>
+      <needs-tracker-diaper 
+        @track:diaper="recordDiaper"
+        :key="componentKey"
+        v-if="recordType == 'Windel'"
+      ></needs-tracker-diaper>
+      <needs-tracker-feeding
+        @track:feeding="recordFeeding"
+        :key="componentKey"
+        v-if="recordType == 'Flasche'"
+        style="width: 120px; margin: 0 auto;"
+      ></needs-tracker-feeding>
+      <needs-tracker-sleep
+        :key="componentKey"
+        v-if="recordType == 'Schlaf'"
+      ></needs-tracker-sleep>
+    </f7-block>
+
     <f7-block>
       <f7-row>
         <f7-col>
-          <f7-button outline @click="saveRecording" fill color="green" :disabled="!wasTracked">✅ Speichern</f7-button>
+          <f7-button outline @click="saveRecording" fill color="green" :disabled="!canSaveTrackRecord()">✅ Speichern</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button outline @click="revertScreen" :disabled="!wasTracked">🔙 Zurücksetzen</f7-button>
+          <f7-button outline @click="revertScreen" :disabled="!canSaveTrackRecord()">🔙 Zurücksetzen</f7-button>
         </f7-col>
       </f7-row>
       
@@ -44,6 +53,7 @@ import NeedsTrackerDiaper from '../components/NeedsTrackerDiaper.vue';
 import NeedsTrackerFeeding from '../components/NeedsTrackerFeeding.vue';
 import NeedsTrackerSleep from '../components/NeedsTrackerSleep.vue';
 import NeedsTrackerHistory from '../components/NeedsTrackerHistory.vue';
+import NeedsTrackerTrackingButton from '../components/NeedsTrackerTrackingButton.vue';
 
 import { LocalTime } from '@js-joda/core';
 
@@ -57,7 +67,8 @@ export default {
     NeedsTrackerDiaper,
     NeedsTrackerFeeding,
     NeedsTrackerSleep,
-    NeedsTrackerHistory
+    NeedsTrackerHistory,
+    NeedsTrackerTrackingButton
 },
 
   data() {
@@ -105,6 +116,10 @@ export default {
       var record = { type: this.recordType, text: this.recordContent }
       record.from = LocalTime.now()
 
+      if (this.recordType === 'Flasche' && !record.recordContent) {
+        record.text = '100ml'
+      }
+
       store.dispatch('addTrackingEvent', record)
       // clear all recordings
       this.revertScreen()
@@ -117,6 +132,9 @@ export default {
     },
     deleteAllTrackingRecords() {
       store.dispatch('deleteAllTrackingRecords')
+    },
+    canSaveTrackRecord() {
+      return (this.recordType && this.recordType !== 'Windel') || this.wasTracked;
     }
   },
 };
