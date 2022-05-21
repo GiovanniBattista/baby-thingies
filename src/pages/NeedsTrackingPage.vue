@@ -120,7 +120,12 @@ export default {
         record.text = '100ml'
       }
 
-      store.dispatch('addTrackingEvent', record)
+      if (this.recordType === 'Schlaf') {
+        store.dispatch('addOrUpdateSleepTrackingEvent', record)
+      } else {
+        store.dispatch('addTrackingEvent', record)
+      }
+      
       // clear all recordings
       this.revertScreen()
     },
