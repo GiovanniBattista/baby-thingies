@@ -80,24 +80,6 @@ export default {
       formValid: true,
     }
   },
-  data() {
-    //const storedData = ls.get('water-temp-calculator-data')
-    const storedData = JSON.parse(localStorage.getItem('water-temp-calculator-data'))
-    console.log(storedData)
-
-    return {
-      targetAmount: Number(storedData?.targetAmount) || 60,
-      targetTemperature: Number(storedData?.targetTemperature) || 40,
-
-      currentHotWaterTemperature: Number(storedData?.currentHotWaterTemperature) || 80,
-      currentColdWaterTemperature: Number(storedData?.currentColdWaterTemperature) || 20,
-
-      calculatedHotWaterAmount: 0,
-      calculatedColdWaterAmount: 0,
-
-      formValid: true,
-    }
-  },
 
   methods: {
     async calculateAmounts() {
