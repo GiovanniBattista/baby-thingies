@@ -4,11 +4,11 @@
 
     <f7-block>
       <div class="row">
-        <needs-tracker-tracking-button @click="recordType='Windel'" title="Windel"></needs-tracker-tracking-button>
+        <needs-tracker-tracking-button @click="changeRecordType('Windel')" title="Windel"></needs-tracker-tracking-button>
       </div>
       <div class="row">
-        <needs-tracker-tracking-button @click="recordType='Flasche'" title="Flasche"></needs-tracker-tracking-button>
-        <needs-tracker-tracking-button @click="recordType='Schlaf'"  title="Schlaf"></needs-tracker-tracking-button>
+        <needs-tracker-tracking-button @click="changeRecordType('Flasche')" title="Flasche"></needs-tracker-tracking-button>
+        <needs-tracker-tracking-button @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
       </div>
     </f7-block>
 
@@ -30,13 +30,17 @@
       ></needs-tracker-sleep>
     </f7-block>
 
+    <f7-block v-if="recordType">
+      <f7-input type="time" style="margin: 0 auto;" :value="from"></f7-input>
+    </f7-block>
+
     <f7-block>
       <f7-row>
         <f7-col>
           <f7-button outline @click="saveRecording" fill color="green" :disabled="!canSaveTrackRecord()">✅ Speichern</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button outline @click="revertScreen" :disabled="!canSaveTrackRecord()">🔙 Zurücksetzen</f7-button>
+          <f7-button outline @click="revertScreen" :disabled="!canRevertTrackRecord()">🔙 Zurücksetzen</f7-button>
         </f7-col>
       </f7-row>
       
@@ -75,6 +79,7 @@ export default {
     return {
       recordType: null,
       recordContent: null,
+      from: null,
       wasTracked: false,
       wasChanged: false,
       resetChildComponents: false,
@@ -88,33 +93,22 @@ export default {
   },
 
   methods: {
+    changeRecordType( type ) {
+      this.recordType = type
+      this.from = LocalTime.now()
+    },
     recordDiaper( diaper ) {
       console.log("Diaper type: ", diaper)
-      this.recordType = "Windel"
       this.recordContent = diaper
       this.wasTracked = true
     },
     recordFeeding( feedAmount ) {
       console.log("Feed amount: ", feedAmount)
-      this.recordType = "Flasche"
       this.recordContent = feedAmount + "ml"
       this.wasTracked = true
     },
-    recordSleepStart( time ) {
-      console.log("Sleep started at: ", time)
-      this.recordType = "Schlaf"
-      this.recordContent = null
-      this.wasTracked = true
-    },
-    recordSleepEnd( time ) {
-      console.log("Sleep ended at: ", time)
-      this.recordType = "Schlaf"
-      this.recordContent = null
-      this.wasTracked = true
-    },
     saveRecording() {
-      var record = { type: this.recordType, text: this.recordContent }
-      record.from = LocalTime.now()
+      var record = { type: this.recordType, text: this.recordContent, from: this.from }
 
       if (this.recordType === 'Flasche' && !record.recordContent) {
         record.text = '100ml'
@@ -137,6 +131,9 @@ export default {
     },
     deleteAllTrackingRecords() {
       store.dispatch('deleteAllTrackingRecords')
+    },
+    canRevertTrackRecord() {
+      return this.recordType
     },
     canSaveTrackRecord() {
       return (this.recordType && this.recordType !== 'Windel') || this.wasTracked;
