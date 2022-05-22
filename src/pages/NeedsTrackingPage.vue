@@ -116,7 +116,7 @@ export default {
       var record = { type: this.recordType, text: this.recordContent }
       record.from = LocalTime.now()
 
-      if (this.recordType === 'Flasche' && !record.recordContent) {
+      if (this.recordType === 'Flasche' && !record.text) {
         record.text = '100ml'
       }
 
