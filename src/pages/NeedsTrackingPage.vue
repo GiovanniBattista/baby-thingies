@@ -12,25 +12,29 @@
       </div>
     </f7-block>
 
-    <f7-block>
-      <needs-tracker-diaper 
-        @track:diaper="recordDiaper"
-        :key="componentKey"
-        v-if="recordType == 'Windel'"
-      ></needs-tracker-diaper>
-      <needs-tracker-feeding
-        @track:feeding="recordFeeding"
-        :key="componentKey"
-        v-if="recordType == 'Flasche'"
-        style="width: 120px; margin: 0 auto;"
-      ></needs-tracker-feeding>
-      <needs-tracker-sleep
-        :key="componentKey"
-        v-if="recordType == 'Schlaf'"
-      ></needs-tracker-sleep>
-
-      <div v-if="recordType">
-        <f7-input type="time" v-model:value="from" class="time-input"></f7-input>
+    <f7-block >
+      <div 
+        class="tracking-container"
+        :class="{ 'tracking-container-space-evenly': recordType !== 'Schlaf', 
+                  'tracking-container-center': recordType === 'Schlaf' }">
+      <f7-input v-if="recordType" type="time" v-model:value="from" class="time-input"></f7-input>
+        <needs-tracker-diaper 
+          @track:diaper="recordDiaper"
+          :key="componentKey"
+          v-if="recordType == 'Windel'"
+          class="tracker-diaper"
+        ></needs-tracker-diaper>
+        <needs-tracker-feeding
+          @track:feeding="recordFeeding"
+          :key="componentKey"
+          v-if="recordType == 'Flasche'"
+          class="tracker-feeding"
+        ></needs-tracker-feeding>
+        <needs-tracker-sleep
+          :key="componentKey"
+          v-if="recordType == 'Schlaf'"
+          class="tracker-sleep"
+        ></needs-tracker-sleep>
       </div>
     </f7-block>
 
@@ -163,11 +167,25 @@ export default {
   padding-left: var(--f7-input-outline-padding-horizontal);
   padding-right: var(--f7-input-outline-padding-horizontal);
   box-sizing: border-box;
-  margin: 5px auto;
+  display: inline-block;
 }
 
 .time-input input {
   height: 100% !important;
 }
+
+.tracking-container {
+  display: flex;
+  align-content: center;
+  
+}
+
+.tracking-container-space-evenly {
+  justify-content: space-evenly; 
+}
+.tracking-container-center {
+  justify-content: center; 
+}
+
 
 </style>
