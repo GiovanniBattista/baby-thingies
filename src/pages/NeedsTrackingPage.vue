@@ -4,30 +4,38 @@
 
     <f7-block>
       <div class="row">
-        <needs-tracker-tracking-button @click="recordType='Windel'" title="Windel"></needs-tracker-tracking-button>
+        <needs-tracker-tracking-button @click="changeRecordType('Windel')" title="Windel"></needs-tracker-tracking-button>
       </div>
       <div class="row">
-        <needs-tracker-tracking-button @click="recordType='Flasche'" title="Flasche"></needs-tracker-tracking-button>
-        <needs-tracker-tracking-button @click="recordType='Schlaf'"  title="Schlaf"></needs-tracker-tracking-button>
+        <needs-tracker-tracking-button @click="changeRecordType('Flasche')" title="Flasche"></needs-tracker-tracking-button>
+        <needs-tracker-tracking-button @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
       </div>
     </f7-block>
 
-    <f7-block>
-      <needs-tracker-diaper 
-        @track:diaper="recordDiaper"
-        :key="componentKey"
-        v-if="recordType == 'Windel'"
-      ></needs-tracker-diaper>
-      <needs-tracker-feeding
-        @track:feeding="recordFeeding"
-        :key="componentKey"
-        v-if="recordType == 'Flasche'"
-        style="width: 120px; margin: 0 auto;"
-      ></needs-tracker-feeding>
-      <needs-tracker-sleep
-        :key="componentKey"
-        v-if="recordType == 'Schlaf'"
-      ></needs-tracker-sleep>
+    <f7-block >
+      <div 
+        class="tracking-container"
+        :class="{ 'tracking-container-space-evenly': recordType !== 'Schlaf', 
+                  'tracking-container-center': recordType === 'Schlaf' }">
+      <f7-input v-if="recordType" type="time" v-model:value="from" class="time-input"></f7-input>
+        <needs-tracker-diaper 
+          @track:diaper="recordDiaper"
+          :key="componentKey"
+          v-if="recordType == 'Windel'"
+          class="tracker-diaper"
+        ></needs-tracker-diaper>
+        <needs-tracker-feeding
+          @track:feeding="recordFeeding"
+          :key="componentKey"
+          v-if="recordType == 'Flasche'"
+          class="tracker-feeding"
+        ></needs-tracker-feeding>
+        <needs-tracker-sleep
+          :key="componentKey"
+          v-if="recordType == 'Schlaf'"
+          class="tracker-sleep"
+        ></needs-tracker-sleep>
+      </div>
     </f7-block>
 
     <f7-block>
@@ -36,7 +44,7 @@
           <f7-button outline @click="saveRecording" fill color="green" :disabled="!canSaveTrackRecord()">✅ Speichern</f7-button>
         </f7-col>
         <f7-col>
-          <f7-button outline @click="revertScreen" :disabled="!canSaveTrackRecord()">🔙 Zurücksetzen</f7-button>
+          <f7-button outline @click="revertScreen" :disabled="!canRevertTrackRecord()">🔙 Zurücksetzen</f7-button>
         </f7-col>
       </f7-row>
       
@@ -60,6 +68,8 @@ import { LocalTime } from '@js-joda/core';
 import { useStore } from 'framework7-vue';
 import store from '../js/store'
 
+import TIME_FORMATTER from '../js/formatter'
+
 export default {
   name: "NeedsTrackingPage",
   
@@ -75,6 +85,7 @@ export default {
     return {
       recordType: null,
       recordContent: null,
+      from: "",
       wasTracked: false,
       wasChanged: false,
       resetChildComponents: false,
@@ -88,33 +99,22 @@ export default {
   },
 
   methods: {
+    changeRecordType( type ) {
+      this.recordType = type
+      this.from = LocalTime.now().format(TIME_FORMATTER)
+    },
     recordDiaper( diaper ) {
       console.log("Diaper type: ", diaper)
-      this.recordType = "Windel"
       this.recordContent = diaper
       this.wasTracked = true
     },
     recordFeeding( feedAmount ) {
       console.log("Feed amount: ", feedAmount)
-      this.recordType = "Flasche"
       this.recordContent = feedAmount + "ml"
       this.wasTracked = true
     },
-    recordSleepStart( time ) {
-      console.log("Sleep started at: ", time)
-      this.recordType = "Schlaf"
-      this.recordContent = null
-      this.wasTracked = true
-    },
-    recordSleepEnd( time ) {
-      console.log("Sleep ended at: ", time)
-      this.recordType = "Schlaf"
-      this.recordContent = null
-      this.wasTracked = true
-    },
     saveRecording() {
-      var record = { type: this.recordType, text: this.recordContent }
-      record.from = LocalTime.now()
+      var record = { type: this.recordType, text: this.recordContent, from: this.from }
 
       if (this.recordType === 'Flasche' && !record.text) {
         record.text = '100ml'
@@ -138,6 +138,9 @@ export default {
     deleteAllTrackingRecords() {
       store.dispatch('deleteAllTrackingRecords')
     },
+    canRevertTrackRecord() {
+      return this.recordType
+    },
     canSaveTrackRecord() {
       return (this.recordType && this.recordType !== 'Windel') || this.wasTracked;
     }
@@ -151,4 +154,38 @@ export default {
   flex-wrap: nowrap;
   justify-content: space-around;
 }
+
+.time-input {
+  width: 120px;
+  height: var(--f7-stepper-height);
+  border: var(--f7-stepper-border-width) solid var(--f7-theme-color);
+  border-radius: var(--f7-stepper-border-radius);
+  color: var(--f7-stepper-value-text-color, var(--f7-theme-color));
+  font-size: var(--f7-stepper-value-font-size);
+  font-weight: var(--f7-stepper-value-font-weight);
+  text-align: center;
+  padding-left: var(--f7-input-outline-padding-horizontal);
+  padding-right: var(--f7-input-outline-padding-horizontal);
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.time-input input {
+  height: 100% !important;
+}
+
+.tracking-container {
+  display: flex;
+  align-content: center;
+  
+}
+
+.tracking-container-space-evenly {
+  justify-content: space-evenly; 
+}
+.tracking-container-center {
+  justify-content: center; 
+}
+
+
 </style>
