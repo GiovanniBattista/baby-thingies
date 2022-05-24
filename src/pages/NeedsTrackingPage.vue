@@ -28,10 +28,10 @@
         :key="componentKey"
         v-if="recordType == 'Schlaf'"
       ></needs-tracker-sleep>
-    </f7-block>
 
-    <f7-block v-if="recordType">
-      <f7-input type="time" style="margin: 0 auto;" :value="from"></f7-input>
+      <div v-if="recordType">
+        <f7-input type="time" v-model:value="from" class="time-input"></f7-input>
+      </div>
     </f7-block>
 
     <f7-block>
@@ -64,6 +64,8 @@ import { LocalTime } from '@js-joda/core';
 import { useStore } from 'framework7-vue';
 import store from '../js/store'
 
+import TIME_FORMATTER from '../js/formatter'
+
 export default {
   name: "NeedsTrackingPage",
   
@@ -79,7 +81,7 @@ export default {
     return {
       recordType: null,
       recordContent: null,
-      from: null,
+      from: "",
       wasTracked: false,
       wasChanged: false,
       resetChildComponents: false,
@@ -95,7 +97,7 @@ export default {
   methods: {
     changeRecordType( type ) {
       this.recordType = type
-      this.from = LocalTime.now()
+      this.from = LocalTime.now().format(TIME_FORMATTER)
     },
     recordDiaper( diaper ) {
       console.log("Diaper type: ", diaper)
@@ -148,4 +150,24 @@ export default {
   flex-wrap: nowrap;
   justify-content: space-around;
 }
+
+.time-input {
+  width: 120px;
+  height: var(--f7-stepper-height);
+  border: var(--f7-stepper-border-width) solid var(--f7-theme-color);
+  border-radius: var(--f7-stepper-border-radius);
+  color: var(--f7-stepper-value-text-color, var(--f7-theme-color));
+  font-size: var(--f7-stepper-value-font-size);
+  font-weight: var(--f7-stepper-value-font-weight);
+  text-align: center;
+  padding-left: var(--f7-input-outline-padding-horizontal);
+  padding-right: var(--f7-input-outline-padding-horizontal);
+  box-sizing: border-box;
+  margin: 5px auto;
+}
+
+.time-input input {
+  height: 100% !important;
+}
+
 </style>

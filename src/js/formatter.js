@@ -1,5 +1,5 @@
 
 import { DateTimeFormatter } from '@js-joda/core';
-const FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
+const TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
 
-export default FORMATTER
+export default TIME_FORMATTER

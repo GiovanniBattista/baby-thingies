@@ -2,7 +2,7 @@
   <div class="timeline">
 
     <div class="timeline-item" v-for="(entry,index) in this.history" :key="index">
-      <div class="timeline-item-time">{{ this.formatTime(entry.from) }}
+      <div class="timeline-item-time">{{ entry.from }}
         <span v-if="entry.to"><br>{{ entry.to}}</span>
       </div>
       <div class="timeline-item-divider"></div>
@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import TIME_FORMATTER from '../js/formatter'
-
 export default {
   name: "NeedsTrackerHistory",
 
@@ -37,12 +35,6 @@ export default {
     history: {
       type: Array,
       required: true,
-    }
-  },
-
-  methods: {
-    formatTime( time ) {
-      return time.format(TIME_FORMATTER)
     }
   },
 };

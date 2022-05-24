@@ -21,13 +21,13 @@ const store = createStore({
     },
     async addTrackingEvent({ state }, eventRecord) {
       var record = {...eventRecord}
-      record.from = eventRecord.from.format(TIME_FORMATTER)
+      //record.from = eventRecord.from.format(TIME_FORMATTER)
 
       await db.open()
       await db.transaction('rw', db.tracking_history, function() {
         db.tracking_history.add(record)
       })
-      state.trackingHistory = [...state.trackingHistory, eventRecord];
+      state.trackingHistory = sortTrackingEvents([...state.trackingHistory, eventRecord]);
     },
     async addOrUpdateSleepTrackingEvent({state}, eventRecord){
       await db.open()
@@ -35,11 +35,11 @@ const store = createStore({
       await db.transaction('rw', db.tracking_history, async function() {
         var foundSleepRecords = await db.tracking_history.where("type").equals("Schlaf").and(record => !record.to).first()
         if (foundSleepRecords) {
-          var to = eventRecord.from.format(TIME_FORMATTER)
+          var to = eventRecord.from; //eventRecord.from.format(TIME_FORMATTER)
           await db.tracking_history.update(foundSleepRecords.id, { to })
         } else {
           var record = {...eventRecord}
-          record.from = eventRecord.from.format(TIME_FORMATTER)
+          //record.from = eventRecord.from.format(TIME_FORMATTER)
           await db.tracking_history.add(record)
         }
 
@@ -57,15 +57,15 @@ const store = createStore({
 async function internalLoadTrackingEvents( state ) {
   var events = await db.tracking_history.toArray()
   convertFromToLocalTime(events)
-  state.trackingHistory = events
+  state.trackingHistory = sortTrackingEvents(events)
 }
 
 function convertFromToLocalTime( events ) {
   for (var event of events) {
-    event.from = LocalTime.parse(event.from)
+    //event.from = LocalTime.parse(event.from)
 
     if (event.type === "Schlaf") {
-      var from = event.from
+      var from = LocalTime.parse(event.from)
       var to = event.to ? LocalTime.parse(event.to) : LocalTime.now()
 
       var duration = Duration.between(from, to)
@@ -80,4 +80,14 @@ function convertFromToLocalTime( events ) {
     }
   }
 }
+
+function sortTrackingEvents( trackingEvents ) {
+  return trackingEvents.sort((e1, e2) => {
+    var from1 = LocalTime.parse(e1.from)
+    var from2 = LocalTime.parse(e2.from)
+
+    return from1.compareTo(from2)
+  })
+}
+
 export default store;
