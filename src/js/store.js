@@ -1,9 +1,9 @@
 
 import { createStore } from 'framework7/lite';
 import { db } from './db';
+import TIME_FORMATTER from './formatter'
 
-import { LocalTime, DateTimeFormatter, Duration } from '@js-joda/core';
-const FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
+import { LocalTime, Duration } from '@js-joda/core';
 
 const store = createStore({
   state: {
@@ -21,7 +21,7 @@ const store = createStore({
     },
     async addTrackingEvent({ state }, eventRecord) {
       var record = {...eventRecord}
-      record.from = eventRecord.from.format(FORMATTER)
+      record.from = eventRecord.from.format(TIME_FORMATTER)
 
       await db.open()
       await db.transaction('rw', db.tracking_history, function() {
@@ -35,11 +35,11 @@ const store = createStore({
       await db.transaction('rw', db.tracking_history, async function() {
         var foundSleepRecords = await db.tracking_history.where("type").equals("Schlaf").and(record => !record.to).first()
         if (foundSleepRecords) {
-          var to = eventRecord.from.format(FORMATTER)
+          var to = eventRecord.from.format(TIME_FORMATTER)
           await db.tracking_history.update(foundSleepRecords.id, { to })
         } else {
           var record = {...eventRecord}
-          record.from = eventRecord.from.format(FORMATTER)
+          record.from = eventRecord.from.format(TIME_FORMATTER)
           await db.tracking_history.add(record)
         }
 

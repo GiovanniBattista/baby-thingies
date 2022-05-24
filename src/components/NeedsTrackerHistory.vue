@@ -22,9 +22,7 @@
 </template>
 
 <script>
-import { DateTimeFormatter } from '@js-joda/core';
-
-const FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
+import TIME_FORMATTER from '../js/formatter'
 
 export default {
   name: "NeedsTrackerHistory",
@@ -44,7 +42,7 @@ export default {
 
   methods: {
     formatTime( time ) {
-      return time.format(FORMATTER)
+      return time.format(TIME_FORMATTER)
     }
   },
 };
