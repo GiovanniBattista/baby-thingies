@@ -12,12 +12,10 @@
       </div>
     </f7-block>
 
-    <f7-block >
+    <f7-block v-if="recordType">
       <div 
-        class="tracking-container"
-        :class="{ 'tracking-container-space-evenly': recordType !== 'Schlaf', 
-                  'tracking-container-center': recordType === 'Schlaf' }">
-      <f7-input v-if="recordType" type="time" v-model:value="from" class="time-input"></f7-input>
+        class="tracking-container tracking-container-space-evenly">
+      <f7-input type="time" v-model:value="from" class="time-input"></f7-input>
         <needs-tracker-diaper 
           @track:diaper="recordDiaper"
           :key="componentKey"
@@ -35,19 +33,8 @@
           v-if="recordType == 'Schlaf'"
           class="tracker-sleep"
         ></needs-tracker-sleep>
+      <f7-button outline @click="saveRecording" fill color="green" :disabled="!canSaveTrackRecord()">✅</f7-button>
       </div>
-    </f7-block>
-
-    <f7-block>
-      <f7-row>
-        <f7-col>
-          <f7-button outline @click="saveRecording" fill color="green" :disabled="!canSaveTrackRecord()">✅ Speichern</f7-button>
-        </f7-col>
-        <f7-col>
-          <f7-button outline @click="revertScreen" :disabled="!canRevertTrackRecord()">🔙 Zurücksetzen</f7-button>
-        </f7-col>
-      </f7-row>
-      
     </f7-block>
 
     <f7-block>
@@ -100,8 +87,12 @@ export default {
 
   methods: {
     changeRecordType( type ) {
+      if (this.recordType === type) {
+        this.revertScreen()
+      } else {
       this.recordType = type
       this.from = LocalTime.now().format(TIME_FORMATTER)
+      }
     },
     recordDiaper( diaper ) {
       console.log("Diaper type: ", diaper)
