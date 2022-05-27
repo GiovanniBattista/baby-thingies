@@ -28,3 +28,12 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+    - name: Upload build to rizu 
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: 'ftp.rizu.at'
+        username: 'rizu'
+        password: '${{ secrets.SFTP_PASSWORD }}'
+        local-dir: './www/*'
+        server-dir: '/public_html/baby.rizu.at'
+        protocol: 'ftps'
