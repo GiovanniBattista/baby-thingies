@@ -34,6 +34,6 @@ jobs:
         server: 'ftp.rizu.at'
         username: 'rizu'
         password: '${{ secrets.SFTP_PASSWORD }}'
-        local-dir: './www/*'
-        server-dir: '/public_html/baby.rizu.at'
+        local-dir: './www/'
+        server-dir: '/public_html/baby.rizu.at/'
         protocol: 'ftps'
