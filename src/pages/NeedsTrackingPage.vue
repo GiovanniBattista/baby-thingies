@@ -1,5 +1,5 @@
 <template>
-  <f7-page name="tracking">
+  <f7-page name="tracking" ptr @ptr:refresh="loadRecords">
     <f7-navbar title="Tracking"></f7-navbar>
 
     <f7-block>
@@ -86,6 +86,10 @@ export default {
   },
 
   methods: {
+    async loadRecords(done) {
+      await store.dispatch('loadTrackingEvents')
+      done()
+    },
     changeRecordType( type ) {
       if (this.recordType === type) {
         this.revertScreen()
@@ -134,8 +138,12 @@ export default {
     },
     canSaveTrackRecord() {
       return (this.recordType && this.recordType !== 'Windel') || this.wasTracked;
+    },
+    refreshPage() {
+      this.revertScreen()
     }
   },
+
 };
 </script>
 
