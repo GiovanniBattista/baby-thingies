@@ -29,6 +29,9 @@ export default {
       '@': SRC_DIR,
     },
   },
+  optimizeDeps: {
+    exclude: ["gaussian-elimination"],
+  },    
   server: {
     host: true,
   },
