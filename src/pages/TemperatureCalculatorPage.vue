@@ -45,7 +45,7 @@
 import TemperatureCalculatorCurrentTemperatures from '../components/TemperatureCalculatorCurrentTemperatures.vue';
 import TemperatureCalculatorTargetValues from '../components/TemperatureCalculatorTargetValues.vue';
 import TemperatureCalculatorCalculatedAmounts from '../components/TemperatureCalculatorCalculatedAmounts.vue';
-import gauss from 'gaussian-elimination';
+import gauss from '../js/gaussianElimination';
 import { useVuelidate } from '@vuelidate/core'
 
 export default {
