@@ -4,35 +4,38 @@
       <f7-chip color="red">{{currentTemperatureHotWater}}°C</f7-chip>/<f7-chip color="blue">{{currentTemperatureColdWater}}°C</f7-chip>
     </template>
     <f7-accordion-content>
+      <f7-block>
+      <f7-row>
+        <f7-col>
+          Heißes Wasser<br>
+          <f7-stepper
+            name="currentTemperatureHotWater" 
+            v-model:value="currentTemperatureHotWater" 
+            type="number"
+            @change="$emit('update:hot', parseInt($event.target.value))"
+            :error-message="composeErrors(v$.currentTemperatureHotWater.$errors)"
+            :error-message-force="v$.currentTemperatureHotWater.$errors.length > 0"
+            outline
+            large
+            color="red"
+          />
+        </f7-col>
 
-      <f7-list>
-        <f7-list-input
-          name="currentTemperatureHotWater" 
-          v-model:value="currentTemperatureHotWater" 
-          type="number" 
-          label="Heißes Wasser"
-          @change="$emit('update:hot', parseInt($event.target.value))"
-          :error-message="composeErrors(v$.currentTemperatureHotWater.$errors)"
-          :error-message-force="v$.currentTemperatureHotWater.$errors.length > 0"
-          outline
-          floating-label
-          clear-button
-        />
-
-        <f7-list-input
-          name="currentTemperatureColdWater" 
-          v-model:value="currentTemperatureColdWater" 
-          type="number"
-          label="Kaltes Wasser"
-          @change="$emit('update:hot', parseInt($event.target.value))"
-          :error-message="composeErrors(v$.currentTemperatureColdWater.$errors)"
-          :error-message-force="v$.currentTemperatureColdWater.$errors.length > 0"
-          outline
-          floating-label
-          clear-button
-        />
-        
-      </f7-list>
+        <f7-col>
+          Kaltes Wasser<br>
+          <f7-stepper
+            name="currentTemperatureColdWater" 
+            v-model:value="currentTemperatureColdWater" 
+            type="number"
+            @change="$emit('update:hot', parseInt($event.target.value))"
+            :error-message="composeErrors(v$.currentTemperatureColdWater.$errors)"
+            :error-message-force="v$.currentTemperatureColdWater.$errors.length > 0"
+            outline
+            large
+          />
+        </f7-col>
+      </f7-row>
+      </f7-block>
     </f7-accordion-content>
   </f7-list-item>
 </template>
