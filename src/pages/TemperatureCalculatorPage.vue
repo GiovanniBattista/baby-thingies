@@ -1,43 +1,24 @@
 <template>
   <f7-page name="calculator">
     <f7-navbar title="Temperaturrechner"></f7-navbar>
-      <form class="form-group needs-validation" @submit.prevent="calculateAmounts" novalidate>
-        <f7-list accordion-list>
-          <ul>
-            <temperature-calculator-target-values 
-              v-model:amount="targetAmount" 
-              v-model:temperature="targetTemperature">
-            </temperature-calculator-target-values>
+      <temperature-calculator-target-values 
+        v-model:amount="targetAmount" 
+        v-model:temperature="targetTemperature">
+      </temperature-calculator-target-values>
 
-            <temperature-calculator-current-temperatures 
-              v-model:hot="currentHotWaterTemperature"
-              v-model:cold="currentColdWaterTemperature">
-            </temperature-calculator-current-temperatures>
-          </ul>
-        </f7-list>
-
-        <f7-block>
-          <f7-button 
-            type="submit"
-            outline
-            large
-            fill>
-            Berechnen
-          </f7-button>
-        </f7-block>
-
-      </form>
+      <temperature-calculator-current-temperatures 
+        v-model:hot="currentHotWaterTemperature"
+        v-model:cold="currentColdWaterTemperature">
+      </temperature-calculator-current-temperatures>
 
       <div v-if="!formValid" class="alert alert-danger" role="alert">
         Bitte zuerst alles korrekt ausfüllen!
       </div>
 
-      <f7-block>
-        <temperature-calculator-calculated-amounts
-          :hot="calculatedHotWaterAmount"
-          :cold="calculatedColdWaterAmount">
-        </temperature-calculator-calculated-amounts>
-      </f7-block>
+      <temperature-calculator-calculated-amounts
+        :hot="calculatedHotWaterAmount"
+        :cold="calculatedColdWaterAmount">
+      </temperature-calculator-calculated-amounts>
   </f7-page>
 </template>
 
@@ -104,6 +85,24 @@ export default {
       this.calculatedHotWaterAmount = Math.ceil(result[1])
     }
   },
+
+  watch: {
+    targetAmount: {
+      handler(newValue, oldValue) {
+        this.calculateAmounts()
+      },
+      immediate: true,
+    },
+    targetTemperature(newValue, oldValue) {
+      this.calculateAmounts()
+    },
+    currentHotWaterTemperature(newValue, oldValue) {
+      this.calculateAmounts()
+    },
+    currentColdWaterTemperature(newValue, oldValue) {
+      this.calculateAmounts()
+    },
+  }
 };
 </script>
 
