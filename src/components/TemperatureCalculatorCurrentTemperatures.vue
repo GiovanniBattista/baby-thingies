@@ -24,7 +24,7 @@
           name="currentTemperatureColdWater" 
           v-model:value="currentTemperatureColdWater" 
           type="number"
-          @change="$emit('update:hot', parseInt($event.target.value))"
+          @change="$emit('update:cold', parseInt($event.target.value))"
           :error-message="composeErrors(v$.currentTemperatureColdWater.$errors)"
           :error-message-force="v$.currentTemperatureColdWater.$errors.length > 0"
           outline
