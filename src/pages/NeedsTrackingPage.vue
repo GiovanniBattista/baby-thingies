@@ -15,7 +15,7 @@
     <f7-block v-if="recordType">
       <div 
         class="tracking-container tracking-container-space-evenly">
-      <f7-input type="time" v-model:value="from" class="time-input"></f7-input>
+        <f7-input type="time" v-model:value="from" class="time-input time-input-large" inputStyle="height: 100%" large></f7-input>
         <needs-tracker-diaper 
           @track:diaper="recordDiaper"
           :key="componentKey"
@@ -33,7 +33,7 @@
           v-if="recordType == 'Schlaf'"
           class="tracker-sleep"
         ></needs-tracker-sleep>
-      <f7-button outline @click="saveRecording" fill color="green" :disabled="!canSaveTrackRecord()">✅</f7-button>
+      <f7-button outline @click="saveRecording" large fill color="green" :disabled="!canSaveTrackRecord()">✅</f7-button>
       </div>
     </f7-block>
 
@@ -169,8 +169,12 @@ export default {
   display: inline-block;
 }
 
-.time-input input {
-  height: 100% !important;
+.time-input-large {
+  height: var(--f7-stepper-large-height);
+}
+
+.time-input-input {
+  height: 100%;
 }
 
 .tracking-container {

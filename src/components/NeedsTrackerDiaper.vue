@@ -2,13 +2,13 @@
   <div>
     <f7-row>
       <f7-col>
-        <f7-button outline @click="$emit('track:diaper', 'Pipi')">💦</f7-button>
+        <f7-button large outline @click="$emit('track:diaper', 'Pipi')">💦</f7-button>
       </f7-col>
       <f7-col>
-        <f7-button outline @click="$emit('track:diaper', 'Kaka')">💩</f7-button>
+        <f7-button large outline @click="$emit('track:diaper', 'Kaka')">💩</f7-button>
       </f7-col>
       <f7-col>
-        <f7-button outline @click="$emit('track:diaper', 'Pipi & Kaka')">💦💩</f7-button>
+        <f7-button large outline @click="$emit('track:diaper', 'Pipi & Kaka')">💦💩</f7-button>
       </f7-col>
     </f7-row>
   </div>
