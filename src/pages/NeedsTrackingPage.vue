@@ -251,7 +251,7 @@ export default {
   align-items: center;
 
   line-height: calc(var(--f7-button-height) - var(--f7-button-border-width, 0) * 2);
-  font-size: 0.1rem;
+  font-size: 0.25rem;
 }
 
 </style>
