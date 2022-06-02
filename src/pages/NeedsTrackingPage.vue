@@ -3,13 +3,24 @@
     <f7-navbar title="Tracking"></f7-navbar>
 
     <f7-block>
-      <div class="row">
-        <needs-tracker-tracking-button @click="changeRecordType('Windel')" title="Windel"></needs-tracker-tracking-button>
-      </div>
-      <div class="row">
-        <needs-tracker-tracking-button @click="changeRecordType('Flasche')" title="Flasche"></needs-tracker-tracking-button>
-        <needs-tracker-tracking-button @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
-      </div>
+      <f7-row>
+        <f7-col>
+          <div>
+            <needs-tracker-tracking-button :active="recordType === 'Windel'" @click="changeRecordType('Windel')" title="Windel"></needs-tracker-tracking-button>
+            <div class="latest-event" v-if="latestDiaper">vor {{ latestDiaper }}</div>
+          </div>
+        </f7-col>
+      </f7-row>
+      <f7-row>
+        <f7-col>
+          <needs-tracker-tracking-button :active="recordType === 'Flasche'" @click="changeRecordType('Flasche')" title="Flasche"></needs-tracker-tracking-button>
+          <div class="latest-event" v-if="latestFeed">vor {{ latestFeed }}</div>
+        </f7-col>
+        <f7-col>
+          <needs-tracker-tracking-button :active="recordType === 'Schlaf'" @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
+          <div class="latest-event" v-if="latestSleep">{{ latestSleep }}</div>
+        </f7-col>
+      </f7-row>
     </f7-block>
 
     <f7-block v-if="recordType">
@@ -50,12 +61,13 @@ import NeedsTrackerSleep from '../components/NeedsTrackerSleep.vue';
 import NeedsTrackerHistory from '../components/NeedsTrackerHistory.vue';
 import NeedsTrackerTrackingButton from '../components/NeedsTrackerTrackingButton.vue';
 
-import { LocalTime } from '@js-joda/core';
+import { Duration, LocalTime } from '@js-joda/core';
 
 import { useStore } from 'framework7-vue';
 import store from '../js/store'
 
-import TIME_FORMATTER from '../js/formatter'
+import { formatDuration, TIME_FORMATTER } from '../js/formatter'
+import NeedsTrackerLatestTracks from '../components/NeedsTrackerLatestTracks.vue';
 
 export default {
   name: "NeedsTrackingPage",
@@ -65,7 +77,8 @@ export default {
     NeedsTrackerFeeding,
     NeedsTrackerSleep,
     NeedsTrackerHistory,
-    NeedsTrackerTrackingButton
+    NeedsTrackerTrackingButton,
+    NeedsTrackerLatestTracks
 },
 
   data() {
@@ -78,6 +91,46 @@ export default {
       componentKey: 0,
       history: useStore('trackingHistory'),
     }
+  },
+
+  computed: {    
+    reverseHistory() {
+      return [].concat(this.history).reverse()
+    },
+
+    latestSleep() {
+      var sleepEvent = this.reverseHistory.find(el => el.type === 'Schlaf')
+      var to = sleepEvent?.to
+      if (to) {
+        var time = LocalTime.parse(to)
+        var duration = Duration.between(time, LocalTime.now())
+        return formatDuration(duration);
+      } else {
+        return ""
+      }
+    },
+    latestFeed() {
+      var feedEvent = this.reverseHistory.find(el => el.type === 'Flasche')
+      var from = feedEvent?.from
+      if (from) {
+        var time = LocalTime.parse(from)
+        var duration = Duration.between(time, LocalTime.now())
+        return formatDuration(duration);
+      } else {
+        return ""
+      }
+    },
+    latestDiaper() {
+      var diaperEvent = this.reverseHistory.find(el => el.type === 'Windel')
+      var from = diaperEvent?.from
+      if (from) {
+        var time = LocalTime.parse(from)
+        var duration = Duration.between(time, LocalTime.now())
+        return formatDuration(duration);
+      } else {
+        return ""
+      }
+    },
   },
 
   mounted() {
@@ -186,5 +239,19 @@ export default {
   justify-content: center; 
 }
 
+.latest-event {
+  display: flex;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  box-sizing: border-box;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+
+  line-height: calc(var(--f7-button-height) - var(--f7-button-border-width, 0) * 2);
+  font-size: 0.1rem;
+}
 
 </style>

@@ -1,7 +1,7 @@
 
 import { createStore } from 'framework7/lite';
 import { db } from './db';
-import TIME_FORMATTER from './formatter'
+import { TIME_FORMATTER, formatDuration } from './formatter'
 
 import { LocalTime, Duration } from '@js-joda/core';
 
@@ -21,7 +21,6 @@ const store = createStore({
     },
     async addTrackingEvent({ state }, eventRecord) {
       var record = {...eventRecord}
-      //record.from = eventRecord.from.format(TIME_FORMATTER)
 
       await db.open()
       await db.transaction('rw', db.tracking_history, function() {
@@ -35,11 +34,10 @@ const store = createStore({
       await db.transaction('rw', db.tracking_history, async function() {
         var foundSleepRecords = await db.tracking_history.where("type").equals("Schlaf").and(record => !record.to).first()
         if (foundSleepRecords) {
-          var to = eventRecord.from; //eventRecord.from.format(TIME_FORMATTER)
+          var to = eventRecord.from;
           await db.tracking_history.update(foundSleepRecords.id, { to })
         } else {
           var record = {...eventRecord}
-          //record.from = eventRecord.from.format(TIME_FORMATTER)
           await db.tracking_history.add(record)
         }
 
@@ -69,14 +67,7 @@ function convertFromToLocalTime( events ) {
       var to = event.to ? LocalTime.parse(event.to) : LocalTime.now()
 
       var duration = Duration.between(from, to)
-      var durationText = new Date(duration.seconds() * 1000).toISOString().slice(11, 16)
-      var split = durationText.split(':')
-
-      event.text = "Dauer: "
-      if (parseInt(split[0]) > 0) {
-        event.text += split[0] + "h "
-      }
-      event.text += split[1] + "min"
+      event.text = "Dauer: " + formatDuration(duration)
     }
   }
 }

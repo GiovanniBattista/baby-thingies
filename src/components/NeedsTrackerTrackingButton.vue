@@ -1,12 +1,12 @@
 <template>
-  <f7-button outline @click="$emit('click')" class="tracker-button">{{ title }}</f7-button>
+  <f7-button :active="active" outline @click="$emit('click')" class="tracker-button">{{ title }}</f7-button>
 </template>
 
 <script>
 export default {
   name: "NeedsTrackerTrackingButton",
   
-  props: [ "title" ],
+  props: [ "title", "active" ],
 
   emits: [ "click" ],
 
