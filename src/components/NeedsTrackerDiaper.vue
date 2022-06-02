@@ -1,16 +1,10 @@
 <template>
   <div>
-    <f7-row>
-      <f7-col>
-        <f7-button large outline @click="$emit('track:diaper', 'Pipi')">💦</f7-button>
-      </f7-col>
-      <f7-col>
-        <f7-button large outline @click="$emit('track:diaper', 'Kaka')">💩</f7-button>
-      </f7-col>
-      <f7-col>
-        <f7-button large outline @click="$emit('track:diaper', 'Pipi & Kaka')">💦💩</f7-button>
-      </f7-col>
-    </f7-row>
+    <f7-segmented>
+      <f7-button large outline :active="activeButton === 'P'" @click="onButtonActivated('P', 'Pipi')">💦</f7-button>
+      <f7-button large outline :active="activeButton === 'K'" @click="onButtonActivated('K', 'Kaka')">💩</f7-button>
+      <f7-button large outline :active="activeButton === 'PK'" @click="onButtonActivated('PK', 'Pipi & Kaka')">💦💩</f7-button>
+    </f7-segmented>
   </div>
 </template>
 
@@ -24,10 +18,15 @@ export default {
 
   data() {
     return {
+      activeButton: 'P',
     }
   },
 
   methods: {
+    onButtonActivated( activeButton, emitterText ) {
+      this.activeButton = activeButton
+      this.$emit('track:diaper', emitterText)
+    }
   },
 };
 </script>

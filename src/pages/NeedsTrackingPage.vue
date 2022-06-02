@@ -33,7 +33,7 @@
           v-if="recordType == 'Schlaf'"
           class="tracker-sleep"
         ></needs-tracker-sleep>
-      <f7-button outline @click="saveRecording" large fill color="green" :disabled="!canSaveTrackRecord()">✅</f7-button>
+      <f7-button outline @click="saveRecording" large fill color="green" :disabled="!recordType">✅</f7-button>
       </div>
     </f7-block>
 
@@ -73,7 +73,6 @@ export default {
       recordType: null,
       recordContent: null,
       from: "",
-      wasTracked: false,
       wasChanged: false,
       resetChildComponents: false,
       componentKey: 0,
@@ -95,18 +94,19 @@ export default {
         this.revertScreen()
       } else {
       this.recordType = type
+      if (this.recordType === 'Windel') {
+        this.recordContent = 'Pipi'
+      }
       this.from = LocalTime.now().format(TIME_FORMATTER)
       }
     },
     recordDiaper( diaper ) {
       console.log("Diaper type: ", diaper)
       this.recordContent = diaper
-      this.wasTracked = true
     },
     recordFeeding( feedAmount ) {
       console.log("Feed amount: ", feedAmount)
       this.recordContent = feedAmount + "ml"
-      this.wasTracked = true
     },
     saveRecording() {
       var record = { type: this.recordType, text: this.recordContent, from: this.from }
@@ -127,7 +127,6 @@ export default {
     revertScreen() {
       this.recordType = null
       this.recordContent = null
-      this.wasTracked = false
       this.componentKey += 1
     },
     deleteAllTrackingRecords() {
@@ -135,9 +134,6 @@ export default {
     },
     canRevertTrackRecord() {
       return this.recordType
-    },
-    canSaveTrackRecord() {
-      return (this.recordType && this.recordType !== 'Windel') || this.wasTracked;
     },
     refreshPage() {
       this.revertScreen()
