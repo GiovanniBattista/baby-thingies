@@ -2,7 +2,7 @@
   <div class="timeline">
 
     <div class="timeline-item" v-for="(entry,index) in this.history" :key="index">
-      <div class="timeline-item-time">{{ entry.from }}
+      <div class="timeline-item-date">{{ entry.from }}
         <span v-if="entry.to"><br>{{ entry.to}}</span>
       </div>
       <div class="timeline-item-divider"></div>
