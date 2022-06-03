@@ -7,14 +7,14 @@
         <f7-col>
           <div>
             <needs-tracker-tracking-button :active="recordType === 'Windel'" @click="changeRecordType('Windel')" title="Windel"></needs-tracker-tracking-button>
-            <div class="latest-event" v-if="latestDiaper">vor {{ latestDiaper }}</div>
+            <div class="latest-event" v-if="latestDiaper">{{ latestDiaper }}</div>
           </div>
         </f7-col>
       </f7-row>
       <f7-row>
         <f7-col>
           <needs-tracker-tracking-button :active="recordType === 'Flasche'" @click="changeRecordType('Flasche')" title="Flasche"></needs-tracker-tracking-button>
-          <div class="latest-event" v-if="latestFeed">vor {{ latestFeed }}</div>
+          <div class="latest-event" v-if="latestFeed">{{ latestFeed }}</div>
         </f7-col>
         <f7-col>
           <needs-tracker-tracking-button :active="recordType === 'Schlaf'" @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
@@ -26,7 +26,7 @@
     <f7-block v-if="recordType">
       <div 
         class="tracking-container tracking-container-space-evenly">
-        <f7-input type="time" v-model:value="from" class="time-input time-input-large" inputStyle="height: 100%" large></f7-input>
+        <f7-input type="time" v-model:value="from" class="time-input time-input-large" inputStyle="height: 100%;line-height:var(--f7-stepper-large-height);" large></f7-input>
         <needs-tracker-diaper 
           @track:diaper="recordDiaper"
           :key="componentKey"
@@ -103,8 +103,7 @@ export default {
       var to = sleepEvent?.to
       if (to) {
         var time = LocalTime.parse(to)
-        var duration = Duration.between(time, LocalTime.now())
-        return formatDuration(duration);
+        return this.formatDuration(time)
       } else {
         return ""
       }
@@ -114,8 +113,7 @@ export default {
       var from = feedEvent?.from
       if (from) {
         var time = LocalTime.parse(from)
-        var duration = Duration.between(time, LocalTime.now())
-        return formatDuration(duration);
+        return this.formatDuration(time)
       } else {
         return ""
       }
@@ -125,8 +123,7 @@ export default {
       var from = diaperEvent?.from
       if (from) {
         var time = LocalTime.parse(from)
-        var duration = Duration.between(time, LocalTime.now())
-        return formatDuration(duration);
+        return this.formatDuration(time)
       } else {
         return ""
       }
@@ -186,13 +183,22 @@ export default {
       store.dispatch('deleteAllTrackingRecords')
     },
     canRevertTrackRecord() {
+
       return this.recordType
     },
     refreshPage() {
       this.revertScreen()
+    },
+    formatDuration( time ) {
+      var duration = Duration.between(time, LocalTime.now())
+      var formatted = formatDuration(duration);
+      if (formatted.charCodeAt(0) < 65) {
+        return "vor " + formatted
+      } else { 
+        return formatted
+      }
     }
   },
-
 };
 </script>
 
@@ -251,7 +257,7 @@ export default {
   align-items: center;
 
   line-height: calc(var(--f7-button-height) - var(--f7-button-border-width, 0) * 2);
-  font-size: 0.25rem;
+  font-size: 11px;
 }
 
 </style>
