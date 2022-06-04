@@ -1,5 +1,5 @@
 <template>
-  <f7-button :active="active" outline @click="$emit('click')" class="tracker-button">{{ title }}</f7-button>
+  <f7-button :icon="'icon-' + title.toLowerCase()" :active="active" outline @click="$emit('click')" class="tracker-button"></f7-button>
 </template>
 
 <script>

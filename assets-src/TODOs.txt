@@ -1,1 +1,6 @@
-Icon link hinzufügen: <a href="https://www.flaticon.com/de/kostenlose-icons/baby" title="baby Icons">Baby Icons erstellt von wanicon - Flaticon</a>
+Icon link hinzufügen: 
+<a href="https://www.flaticon.com/de/kostenlose-icons/baby" title="baby Icons">Baby Icons erstellt von wanicon - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/baby-diaper" title="baby diaper icons">Baby diaper icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/baby-bottle" title="baby bottle icons">Baby bottle icons created by Freepik - Flaticon</a>
+https://www.flaticon.com/premium-icon/feeding-bottle_3436940
+<a href="https://www.flaticon.com/free-icons/child" title="child icons">Child icons created by Freepik - Flaticon</a>
