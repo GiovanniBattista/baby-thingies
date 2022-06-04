@@ -67,7 +67,13 @@ function convertFromToLocalTime( events ) {
       var to = event.to ? LocalTime.parse(event.to) : LocalTime.now()
 
       var duration = Duration.between(from, to)
-      event.text = "Dauer: " + formatDuration(duration)
+      var text
+      if (event.to) {
+        text = "Dauer: "
+      } else {
+        text = "seit "
+      }
+      event.text = text + formatDuration(duration)
     }
   }
 }
