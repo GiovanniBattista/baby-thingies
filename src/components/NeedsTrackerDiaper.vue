@@ -1,6 +1,6 @@
 <template>
   <div>
-    <f7-segmented>
+    <f7-segmented class="margin-right">
       <f7-button large outline :active="activeButton === 'P'" @click="onButtonActivated('P', 'Pipi')">💦</f7-button>
       <f7-button large outline :active="activeButton === 'K'" @click="onButtonActivated('K', 'Kaka')">💩</f7-button>
       <f7-button large outline :active="activeButton === 'PK'" @click="onButtonActivated('PK', 'Pipi & Kaka')">💦💩</f7-button>

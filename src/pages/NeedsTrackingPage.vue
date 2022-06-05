@@ -29,8 +29,8 @@
 
     <f7-block v-if="recordType">
       <div 
-        class="tracking-container tracking-container-space-evenly">
-        <f7-input type="time" v-model:value="from" class="time-input time-input-large" inputStyle="height: 100%;line-height:var(--f7-stepper-large-height);" large></f7-input>
+        class="tracking-container tracking-container-center">
+        <f7-input type="time" v-model:value="from" class="time-input time-input-large margin-right" inputStyle="height: 100%;line-height:var(--f7-stepper-large-height);" large></f7-input>
         <needs-tracker-diaper 
           @track:diaper="recordDiaper"
           :key="componentKey"
@@ -265,9 +265,6 @@ export default {
   
 }
 
-.tracking-container-space-evenly {
-  justify-content: space-evenly; 
-}
 .tracking-container-center {
   justify-content: center; 
 }
