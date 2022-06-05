@@ -1,6 +1,10 @@
 <template>
   <f7-page name="tracking" ptr @ptr:refresh="loadRecords">
-    <f7-navbar title="Tracking"></f7-navbar>
+    <f7-navbar title="Tracking">
+      <f7-nav-right>
+        <f7-link icon-f7="info_circle" popup-open=".demo-popup-swipe-handler" ></f7-link>
+      </f7-nav-right>
+    </f7-navbar>
 
     <f7-block>
       <f7-row>
@@ -52,6 +56,29 @@
       <needs-tracker-history :history="history" @history:delete-all="deleteAllTrackingRecords"></needs-tracker-history>
     </f7-block>
   </f7-page>
+
+  <f7-popup class="demo-popup-swipe-handler" swipe-to-close>
+    <f7-page>
+      <f7-navbar title="Über">
+        <f7-nav-right>
+          <f7-link popup-close>Close</f7-link>
+        </f7-nav-right>
+      </f7-navbar>
+
+      <f7-block-title>Verwendete Icons</f7-block-title>
+      <f7-block strong>
+        <a href="https://www.flaticon.com/de/kostenlose-icons/baby" title="baby Icons">Baby Icons erstellt von wanicon - Flaticon</a><br>
+        <a href="https://www.flaticon.com/free-icons/baby-diaper" title="baby diaper icons">Baby diaper icons created by Freepik - Flaticon</a><br>
+        <a href="https://www.flaticon.com/free-icons/baby-bottle" title="baby bottle icons">Baby bottle icons created by Freepik - Flaticon</a><br>
+      </f7-block>
+
+      <f7-block-title>Credits</f7-block-title>
+      <f7-block strong>
+        © GiovanniBattista <br>
+        <a href="https://github.com/GiovanniBattista/baby-thingies">Github</a>
+      </f7-block>
+    </f7-page>
+  </f7-popup>
 </template>
 
 <script>
