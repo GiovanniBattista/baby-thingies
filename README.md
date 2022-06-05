@@ -1,4 +1,4 @@
-# water-temperature-calculator-f7
+# baby-thingies
 
 ## Framework7 CLI Options
 
