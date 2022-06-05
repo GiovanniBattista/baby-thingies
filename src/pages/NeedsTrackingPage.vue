@@ -29,7 +29,7 @@
 
     <f7-block v-if="recordType">
       <div 
-        class="tracking-container tracking-container-center">
+        class="display-flex justify-content-center">
         <f7-input type="time" v-model:value="from" class="time-input time-input-large margin-right" inputStyle="height: 100%;line-height:var(--f7-stepper-large-height);" large></f7-input>
         <needs-tracker-diaper 
           @track:diaper="recordDiaper"
@@ -59,7 +59,7 @@
 
   <f7-popup class="demo-popup-swipe-handler" swipe-to-close>
     <f7-page>
-      <f7-navbar title="Über">
+      <f7-navbar title="Info">
         <f7-nav-right>
           <f7-link popup-close>Close</f7-link>
         </f7-nav-right>
@@ -230,11 +230,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.row {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-}
 
 .time-input {
   width: 120px;
@@ -257,16 +252,6 @@ export default {
 
 .time-input-input {
   height: 100%;
-}
-
-.tracking-container {
-  display: flex;
-  align-content: center;
-  
-}
-
-.tracking-container-center {
-  justify-content: center; 
 }
 
 .latest-event {
