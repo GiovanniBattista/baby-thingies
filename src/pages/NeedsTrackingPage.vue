@@ -183,7 +183,11 @@ export default {
     },
     recordFeeding( feedAmount ) {
       console.log("Feed amount: ", feedAmount)
-      this.recordContent = feedAmount + "ml"
+      if (!feedAmount) {
+        this.recordContent = 'nichts getrunken'
+      } else {
+        this.recordContent = feedAmount + "ml"
+      }
     },
     saveRecording() {
       var record = { type: this.recordType, text: this.recordContent, from: this.from }
@@ -210,7 +214,6 @@ export default {
       store.dispatch('deleteAllTrackingRecords')
     },
     canRevertTrackRecord() {
-
       return this.recordType
     },
     refreshPage() {
