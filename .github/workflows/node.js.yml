@@ -32,8 +32,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: 'ftp.rizu.at'
-        username: 'rizuat'
+        username: 'github@rizu.at'
         password: '${{ secrets.SFTP_PASSWORD }}'
         local-dir: './www/'
-        server-dir: '/public_html/baby.rizu.at/'
-        protocol: 'ftps'
+        server-dir: '/baby.rizu.at/'
