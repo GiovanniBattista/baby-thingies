@@ -7,7 +7,7 @@
     </f7-navbar>
 
     <f7-block>
-      <f7-row>
+      <f7-row class="margin-bottom">
         <f7-col>
           <div>
             <needs-tracker-tracking-button :active="recordType === 'Windel'" @click="changeRecordType('Windel')" title="Windel"></needs-tracker-tracking-button>
@@ -23,6 +23,10 @@
         <f7-col>
           <needs-tracker-tracking-button :active="recordType === 'Schlaf'" @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
           <div class="latest-event" v-if="latestSleep">{{ latestSleep }}</div>
+        </f7-col>
+        <f7-col>
+          <needs-tracker-tracking-button :active="recordType === 'Essen'" @click="changeRecordType('Essen')"  title="Essen"></needs-tracker-tracking-button>
+          <div class="latest-event" v-if="latestFood">{{ latestFood }}</div>
         </f7-col>
       </f7-row>
     </f7-block>
@@ -43,6 +47,12 @@
           v-if="recordType == 'Flasche'"
           class="tracker-feeding"
         ></needs-tracker-feeding>
+        <needs-tracker-food
+          @track:food="recordFood"
+          :key="componentKey"
+          v-if="recordType == 'Essen'"
+          class="tracker-food"
+        ></needs-tracker-food>
         <needs-tracker-sleep
           :key="componentKey"
           v-if="recordType == 'Schlaf'"
@@ -68,6 +78,7 @@
       <f7-block-title>Verwendete Icons</f7-block-title>
       <f7-block strong>
         <a href="https://www.flaticon.com/de/kostenlose-icons/baby" title="baby Icons">Baby Icons erstellt von wanicon - Flaticon</a><br>
+        <a href="https://www.flaticon.com/free-icons/baby-food" title="baby food icons">Baby food icons created by Freepik - Flaticon</a>
         <a href="https://www.flaticon.com/free-icons/baby-diaper" title="baby diaper icons">Baby diaper icons created by Freepik - Flaticon</a><br>
         <a href="https://www.flaticon.com/free-icons/baby-bottle" title="baby bottle icons">Baby bottle icons created by Freepik - Flaticon</a><br>
       </f7-block>
@@ -84,6 +95,7 @@
 <script>
 import NeedsTrackerDiaper from '../components/NeedsTrackerDiaper.vue';
 import NeedsTrackerFeeding from '../components/NeedsTrackerFeeding.vue';
+import NeedsTrackerFood from '../components/NeedsTrackerFood.vue';
 import NeedsTrackerSleep from '../components/NeedsTrackerSleep.vue';
 import NeedsTrackerHistory from '../components/NeedsTrackerHistory.vue';
 import NeedsTrackerTrackingButton from '../components/NeedsTrackerTrackingButton.vue';
@@ -102,6 +114,7 @@ export default {
   components: {
     NeedsTrackerDiaper,
     NeedsTrackerFeeding,
+    NeedsTrackerFood,
     NeedsTrackerSleep,
     NeedsTrackerHistory,
     NeedsTrackerTrackingButton,
@@ -145,6 +158,16 @@ export default {
         return ""
       }
     },
+    latestFood() {
+      var feedEvent = this.reverseHistory.find(el => el.type === 'Essen')
+      var from = feedEvent?.from
+      if (from) {
+        var time = LocalTime.parse(from)
+        return this.formatDuration(time)
+      } else {
+        return ""
+      }
+    },
     latestDiaper() {
       var diaperEvent = this.reverseHistory.find(el => el.type === 'Windel')
       var from = diaperEvent?.from
@@ -155,6 +178,7 @@ export default {
         return ""
       }
     },
+    
   },
 
   mounted() {
@@ -186,14 +210,24 @@ export default {
       if (!feedAmount) {
         this.recordContent = 'nichts getrunken'
       } else {
-        this.recordContent = feedAmount + "ml"
+        this.recordContent = feedAmount + " ml"
+      }
+    },
+    recordFood( foodAmount ) {
+      console.log("Food amount: ", foodAmount)
+      if (!foodAmount) {
+        this.recordContent = 'nichts gegessen'
+      } else {
+        this.recordContent = foodAmount + " g"
       }
     },
     saveRecording() {
       var record = { type: this.recordType, text: this.recordContent, from: this.from }
 
       if (this.recordType === 'Flasche' && !record.text) {
-        record.text = '100ml'
+        record.text = '100 ml'
+      } else if (this.recordType === 'Essen' && !record.text) {
+        record.text = '100 g'
       }
 
       if (this.recordType === 'Schlaf') {

@@ -75,8 +75,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-  .container {
-    display: flex;
-  }
-</style>
+<style lang="scss" scoped></style>
