@@ -2,7 +2,7 @@
   <f7-page name="tracking" ptr @ptr:refresh="loadRecords">
     <f7-navbar title="Tracking">
       <f7-nav-right>
-        <f7-link icon-f7="info_circle" popup-open=".demo-popup-swipe-handler" ></f7-link>
+        <f7-link icon-f7="info_circle" popup-open=".app-info" ></f7-link>
       </f7-nav-right>
     </f7-navbar>
 
@@ -57,7 +57,7 @@
     </f7-block>
   </f7-page>
 
-  <f7-popup class="demo-popup-swipe-handler" swipe-to-close>
+  <f7-popup class="app-info" swipe-to-close>
     <f7-page>
       <f7-navbar title="Info">
         <f7-nav-right>
