@@ -14,15 +14,15 @@
             <div class="latest-event" v-if="latestDiaper">{{ latestDiaper }}</div>
           </div>
         </f7-col>
+        <f7-col>
+          <needs-tracker-tracking-button :active="recordType === 'Schlaf'" @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
+          <div class="latest-event" v-if="latestSleep">{{ latestSleep }}</div>
+        </f7-col>
       </f7-row>
       <f7-row>
         <f7-col>
           <needs-tracker-tracking-button :active="recordType === 'Flasche'" @click="changeRecordType('Flasche')" title="Flasche"></needs-tracker-tracking-button>
           <div class="latest-event" v-if="latestFeed">{{ latestFeed }}</div>
-        </f7-col>
-        <f7-col>
-          <needs-tracker-tracking-button :active="recordType === 'Schlaf'" @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
-          <div class="latest-event" v-if="latestSleep">{{ latestSleep }}</div>
         </f7-col>
         <f7-col>
           <needs-tracker-tracking-button :active="recordType === 'Essen'" @click="changeRecordType('Essen')"  title="Essen"></needs-tracker-tracking-button>
