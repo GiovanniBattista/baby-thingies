@@ -1,6 +1,6 @@
 <template>
   <div class="display-flex">
-    <f7-stepper class="margin-right" large :value="120" :min="0" :step="5" :autorepeat="true" @change="$emit('track:feeding', parseInt($event.target.value))"></f7-stepper>
+    <f7-stepper class="margin-right" large :value="120" :min="0" :max="1000" :step="5" :autorepeat="true" @change="$emit('track:feeding', parseInt($event.target.value))"></f7-stepper>
     <f7-link icon-f7="info_circle" class="margin-right" popup-open=".baby-food-measurments"></f7-link>
   </div>
 
