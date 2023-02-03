@@ -3,7 +3,7 @@ import { createStore } from 'framework7/lite';
 import { db } from './db';
 import { TIME_FORMATTER, formatDuration } from './formatter'
 
-import { LocalTime, Duration } from '@js-joda/core';
+import { LocalDateTime, LocalTime, Duration, LocalDate } from '@js-joda/core';
 
 const store = createStore({
   state: {
@@ -20,6 +20,8 @@ const store = createStore({
       internalLoadTrackingEvents(state)
     },
     async addTrackingEvent({ state }, eventRecord) {
+      eventRecord.from = convertTimeToDateTimeString(eventRecord.from);
+
       var record = {...eventRecord}
 
       await db.open()
@@ -34,10 +36,14 @@ const store = createStore({
       await db.transaction('rw', db.tracking_history, async function() {
         var foundSleepRecords = await db.tracking_history.where("type").equals("Schlaf").and(record => !record.to).first()
         if (foundSleepRecords) {
+          debugger;
+          eventRecord.from = convertTimeToDateTimeString(eventRecord.from)
           var to = eventRecord.from;
           await db.tracking_history.update(foundSleepRecords.id, { to })
         } else {
+          eventRecord.from = convertTimeToDateTimeString(eventRecord.from);
           var record = {...eventRecord}
+          
           await db.tracking_history.add(record)
         }
 
@@ -54,17 +60,17 @@ const store = createStore({
 
 async function internalLoadTrackingEvents( state ) {
   var events = await db.tracking_history.toArray()
-  convertFromToLocalTime(events)
+  convertFromToLocalDateTime(events)
   state.trackingHistory = sortTrackingEvents(events)
 }
 
-function convertFromToLocalTime( events ) {
+function convertFromToLocalDateTime( events ) {
   for (var event of events) {
-    //event.from = LocalTime.parse(event.from)
+    //event.from = LocalDateTime.parse(event.from)
 
     if (event.type === "Schlaf") {
-      var from = LocalTime.parse(event.from)
-      var to = event.to ? LocalTime.parse(event.to) : LocalTime.now()
+      var from = LocalDateTime.parse(event.from)
+      var to = event.to ? LocalDateTime.parse(event.to) : LocalDateTime.now()
 
       var duration = Duration.between(from, to)
       var text
@@ -78,10 +84,15 @@ function convertFromToLocalTime( events ) {
   }
 }
 
+function convertTimeToDateTimeString( time ) {
+  const dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse(time))
+  return dateTime.toString();
+}
+
 function sortTrackingEvents( trackingEvents ) {
   return trackingEvents.sort((e1, e2) => {
-    var from1 = LocalTime.parse(e1.from)
-    var from2 = LocalTime.parse(e2.from)
+    var from1 = LocalDateTime.parse(e1.from)
+    var from2 = LocalDateTime.parse(e2.from)
 
     return from1.compareTo(from2)
   })

@@ -100,7 +100,7 @@ import NeedsTrackerSleep from '../components/NeedsTrackerSleep.vue';
 import NeedsTrackerHistory from '../components/NeedsTrackerHistory.vue';
 import NeedsTrackerTrackingButton from '../components/NeedsTrackerTrackingButton.vue';
 
-import { Duration, LocalTime } from '@js-joda/core';
+import { Duration, LocalDateTime } from '@js-joda/core';
 
 import { useStore } from 'framework7-vue';
 import store from '../js/store'
@@ -142,7 +142,7 @@ export default {
       var sleepEvent = this.reverseHistory.find(el => el.type === 'Schlaf')
       var to = sleepEvent?.to
       if (to) {
-        var time = LocalTime.parse(to)
+        var time = LocalDateTime.parse(to)
         return this.formatDuration(time)
       } else {
         return ""
@@ -152,7 +152,7 @@ export default {
       var feedEvent = this.reverseHistory.find(el => el.type === 'Flasche')
       var from = feedEvent?.from
       if (from) {
-        var time = LocalTime.parse(from)
+        var time = LocalDateTime.parse(from)
         return this.formatDuration(time)
       } else {
         return ""
@@ -162,7 +162,7 @@ export default {
       var feedEvent = this.reverseHistory.find(el => el.type === 'Essen')
       var from = feedEvent?.from
       if (from) {
-        var time = LocalTime.parse(from)
+        var time = LocalDateTime.parse(from)
         return this.formatDuration(time)
       } else {
         return ""
@@ -172,7 +172,7 @@ export default {
       var diaperEvent = this.reverseHistory.find(el => el.type === 'Windel')
       var from = diaperEvent?.from
       if (from) {
-        var time = LocalTime.parse(from)
+        var time = LocalDateTime.parse(from)
         return this.formatDuration(time)
       } else {
         return ""
@@ -198,7 +198,7 @@ export default {
       if (this.recordType === 'Windel') {
         this.recordContent = 'Pipi'
       }
-      this.from = LocalTime.now().format(TIME_FORMATTER)
+      this.from = LocalDateTime.now().format(TIME_FORMATTER)
       }
     },
     recordDiaper( diaper ) {
@@ -254,7 +254,7 @@ export default {
       this.revertScreen()
     },
     formatDuration( time ) {
-      var duration = Duration.between(time, LocalTime.now())
+      var duration = Duration.between(time, LocalDateTime.now())
       var formatted = formatDuration(duration);
       if (formatted.charCodeAt(0) < 65) {
         return "vor " + formatted

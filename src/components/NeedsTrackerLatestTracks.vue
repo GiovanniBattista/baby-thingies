@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { Duration, LocalTime } from '@js-joda/core';
+import { Duration, LocalDateTime } from '@js-joda/core';
 import { formatDuration } from '../js/formatter';
 
 export default {
@@ -46,8 +46,8 @@ export default {
     latestSleepTime() {
       var to = this.latestSleep?.to
       if (to) {
-        var time = LocalTime.parse(to)
-        var duration = Duration.between(time, LocalTime.now())
+        var time = LocalDateTime.parse(to)
+        var duration = Duration.between(time, LocalDateTime.now())
         return formatDuration(duration);
       } else {
         return ""
@@ -56,8 +56,8 @@ export default {
     latestFeedTime() {
       var from = this.latestFeed?.from
       if (from) {
-        var time = LocalTime.parse(from)
-        var duration = Duration.between(time, LocalTime.now())
+        var time = LocalDateTime.parse(from)
+        var duration = Duration.between(time, LocalDateTime.now())
         return formatDuration(duration);
       }else {
         return ""
@@ -66,8 +66,8 @@ export default {
     latestDiaperTime() {
       var from = this.latestDiaper?.from
       if (from) {
-        var time = LocalTime.parse(from)
-        var duration = Duration.between(time, LocalTime.now())
+        var time = LocalDateTime.parse(from)
+        var duration = Duration.between(time, LocalDateTime.now())
         return formatDuration(duration);
       }
       else {
