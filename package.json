@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "@js-joda/core": "^5.2.0",
+    "@js-joda/locale_de": "^4.8.6",
     "@vuelidate/core": "^2.0.0-alpha.41",
     "@vuelidate/validators": "^2.0.0-alpha.29",
     "dexie": "^3.2.2",

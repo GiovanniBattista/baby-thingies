@@ -2,14 +2,13 @@
   <div class="timeline timeline-sides">
 
     <div class="timeline-item" :class="this.determineItemSide(entry.date)" v-for="(entry,index) in this.preparedHistoryItems" :key="index">
-      <div class="timeline-item-date">{{ entry.date }}</div>
+      <div class="timeline-item-date long">{{ entry.date }}</div>
       <div class="timeline-item-divider"></div>
       <div class="timeline-item-content">
         <div class="timeline-item-inner">
           <div class="timeline-item-time">{{ entry.from }}
             <span v-if="entry.to"> - {{ entry.to}}</span></div>
-          <div class="timeline-item-title">{{ entry.type }}</div>
-          <div class="timeline-item-text">{{ entry.text }}</div>
+          <div class="timeline-item-text">{{ entry.type }}: {{ entry.text }}</div>
         </div>
       </div>
     </div>
@@ -22,7 +21,8 @@
 </template>
 
 <script>
-import { LocalDateTime, DateTimeFormatter, LocalTime, Duration, LocalDate } from '@js-joda/core';
+import { Locale } from '@js-joda/locale_de'
+import { LocalDateTime, DateTimeFormatter } from '@js-joda/core';
 
 export default {
   name: "NeedsTrackerHistory",
@@ -45,7 +45,7 @@ export default {
 
   computed: {
     preparedHistoryItems() {
-      const dateFormatter = DateTimeFormatter.ofPattern('dd.MM');
+      const dateFormatter = DateTimeFormatter.ofPattern('eeee, dd. MMM').withLocale(Locale.GERMAN);
       const timeFormatter = DateTimeFormatter.ofPattern('HH:mm');
 
       const history = new Array()
@@ -89,4 +89,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.timeline-item-date.long {
+  width: 75px;
+  font-size: 19px;
+  font-weight: 700;
+}
+.timeline-item.timeline-item-right {
+  margin-left: calc(50% - (var(--f7-timeline-divider-margin-horizontal) * 2 + 10px) / 2 - 100px);
+}
+.timeline-item-inner {
+  background-color: #424242;
+}
+</style>
