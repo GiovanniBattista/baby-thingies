@@ -92,13 +92,13 @@ export default {
 <style lang="scss" scoped>
 .timeline-item-date.long {
   width: 75px;
-  font-size: 19px;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 500;
 }
 .timeline-item.timeline-item-right {
   margin-left: calc(50% - (var(--f7-timeline-divider-margin-horizontal) * 2 + 10px) / 2 - 100px);
 }
-.timeline-item-inner {
+.dark .timeline-item-inner {
   background-color: #424242;
 }
 </style>
