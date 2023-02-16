@@ -24,15 +24,17 @@
 import { Locale } from '@js-joda/locale_de'
 import { LocalDateTime, DateTimeFormatter } from '@js-joda/core';
 
+let lastDate = null;
+let lastItemCssClass = 'timeline-item-right';
+
 export default {
   name: "NeedsTrackerHistory",
 
   emits: [ 'history:deleteAll' ],
-  
+
   data() {
     return {
-      lastDate: null,
-      lastItemCssClass: 'timeline-item-right',
+      
     };
   },
 
@@ -74,16 +76,16 @@ export default {
 
   methods: {
     determineItemSide( date ) {
-      if (date && this.lastDate != date) {
-        this.lastDate = date
+      if (date && lastDate != date) {
+        lastDate = date
 
-        if (this.lastItemCssClass === 'timeline-item-right') {
-          this.lastItemCssClass = 'timeline-item-left'
+        if (lastItemCssClass === 'timeline-item-right') {
+          lastItemCssClass = 'timeline-item-left'
         } else {
-          this.lastItemCssClass = 'timeline-item-right'
+          lastItemCssClass = 'timeline-item-right'
         }
       }
-      return this.lastItemCssClass
+      return lastItemCssClass
     }
   }
 };
