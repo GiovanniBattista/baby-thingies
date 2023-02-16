@@ -1,9 +1,9 @@
 
 import { createStore } from 'framework7/lite';
 import { db } from './db';
-import { TIME_FORMATTER, formatDuration } from './formatter'
+import { formatDuration } from './formatter'
 
-import { LocalDateTime, LocalTime, Duration, LocalDate } from '@js-joda/core';
+import { LocalDateTime, Duration } from '@js-joda/core';
 
 const store = createStore({
   state: {
@@ -20,8 +20,6 @@ const store = createStore({
       internalLoadTrackingEvents(state)
     },
     async addTrackingEvent({ state }, eventRecord) {
-      eventRecord.from = convertTimeToDateTimeString(eventRecord.from);
-
       var record = {...eventRecord}
 
       await db.open()
@@ -37,11 +35,9 @@ const store = createStore({
         var foundSleepRecords = await db.tracking_history.where("type").equals("Schlaf").and(record => !record.to).first()
         if (foundSleepRecords) {
           debugger;
-          eventRecord.from = convertTimeToDateTimeString(eventRecord.from)
           var to = eventRecord.from;
           await db.tracking_history.update(foundSleepRecords.id, { to })
         } else {
-          eventRecord.from = convertTimeToDateTimeString(eventRecord.from);
           var record = {...eventRecord}
           
           await db.tracking_history.add(record)
@@ -82,11 +78,6 @@ function convertFromToLocalDateTime( events ) {
       event.text = text + formatDuration(duration)
     }
   }
-}
-
-function convertTimeToDateTimeString( time ) {
-  const dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse(time))
-  return dateTime.toString();
 }
 
 function sortTrackingEvents( trackingEvents ) {

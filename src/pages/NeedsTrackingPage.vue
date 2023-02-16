@@ -33,32 +33,40 @@
 
     <f7-block v-if="recordType">
       <div 
-        class="display-flex justify-content-center">
-        <f7-input type="time" v-model:value="from" class="time-input time-input-large margin-right" inputStyle="height: 100%;line-height:var(--f7-stepper-large-height);" large></f7-input>
-        <needs-tracker-diaper 
-          @track:diaper="recordDiaper"
-          :key="componentKey"
-          v-if="recordType == 'Windel'"
-          class="tracker-diaper"
-        ></needs-tracker-diaper>
-        <needs-tracker-feeding
-          @track:feeding="recordFeeding"
-          :key="componentKey"
-          v-if="recordType == 'Flasche'"
-          class="tracker-feeding"
-        ></needs-tracker-feeding>
-        <needs-tracker-food
-          @track:food="recordFood"
-          :key="componentKey"
-          v-if="recordType == 'Essen'"
-          class="tracker-food"
-        ></needs-tracker-food>
-        <needs-tracker-sleep
-          :key="componentKey"
-          v-if="recordType == 'Schlaf'"
-          class="tracker-sleep"
-        ></needs-tracker-sleep>
-      <f7-button outline @click="saveRecording" large fill color="green" :disabled="!recordType">✅</f7-button>
+        class="display-flex flex-direction-column">
+          <div
+            class="display-flex justify-content-center margin-bottom">
+            <f7-input type="date" v-model:value="date" class="time-input time-input-large margin-right" inputStyle="height: 100%;line-height:var(--f7-stepper-large-height);" large></f7-input>
+            <f7-input type="time" v-model:value="from" class="time-input time-input-large margin-right" inputStyle="height: 100%;line-height:var(--f7-stepper-large-height);" large></f7-input>
+          </div>
+
+        <div 
+          class="display-flex justify-content-center">
+          <needs-tracker-diaper 
+            @track:diaper="recordDiaper"
+            :key="componentKey"
+            v-if="recordType == 'Windel'"
+            class="tracker-diaper"
+          ></needs-tracker-diaper>
+          <needs-tracker-feeding
+            @track:feeding="recordFeeding"
+            :key="componentKey"
+            v-if="recordType == 'Flasche'"
+            class="tracker-feeding"
+          ></needs-tracker-feeding>
+          <needs-tracker-food
+            @track:food="recordFood"
+            :key="componentKey"
+            v-if="recordType == 'Essen'"
+            class="tracker-food"
+          ></needs-tracker-food>
+          <needs-tracker-sleep
+            :key="componentKey"
+            v-if="recordType == 'Schlaf'"
+            class="tracker-sleep"
+          ></needs-tracker-sleep>
+          <f7-button outline @click="saveRecording" large fill color="green" :disabled="!recordType">✅</f7-button>
+        </div>
       </div>
     </f7-block>
 
@@ -100,12 +108,12 @@ import NeedsTrackerSleep from '../components/NeedsTrackerSleep.vue';
 import NeedsTrackerHistory from '../components/NeedsTrackerHistory.vue';
 import NeedsTrackerTrackingButton from '../components/NeedsTrackerTrackingButton.vue';
 
-import { Duration, LocalDateTime } from '@js-joda/core';
+import { Duration, LocalDateTime, LocalDate, LocalTime } from '@js-joda/core';
 
 import { useStore } from 'framework7-vue';
 import store from '../js/store'
 
-import { formatDuration, TIME_FORMATTER } from '../js/formatter'
+import { formatDuration, TIME_FORMATTER, DATE_FORMATTER } from '../js/formatter'
 import NeedsTrackerLatestTracks from '../components/NeedsTrackerLatestTracks.vue';
 
 export default {
@@ -125,6 +133,7 @@ export default {
     return {
       recordType: null,
       recordContent: null,
+      date: "",
       from: "",
       wasChanged: false,
       resetChildComponents: false,
@@ -194,11 +203,12 @@ export default {
       if (this.recordType === type) {
         this.revertScreen()
       } else {
-      this.recordType = type
-      if (this.recordType === 'Windel') {
-        this.recordContent = 'Pipi'
-      }
-      this.from = LocalDateTime.now().format(TIME_FORMATTER)
+        this.recordType = type
+        if (this.recordType === 'Windel') {
+          this.recordContent = 'Pipi'
+        }
+        this.from = LocalTime.now().format(TIME_FORMATTER)
+        this.date = LocalDate.now().toString()
       }
     },
     recordDiaper( diaper ) {
@@ -222,7 +232,11 @@ export default {
       }
     },
     saveRecording() {
-      var record = { type: this.recordType, text: this.recordContent, from: this.from }
+      const date = LocalDate.parse(this.date)
+      const time = LocalTime.parse(this.from, TIME_FORMATTER)
+      const dateTime = LocalDateTime.of(date, time)
+
+      var record = { type: this.recordType, text: this.recordContent, from: dateTime.toString() }
 
       if (this.recordType === 'Flasche' && !record.text) {
         record.text = '100 ml'
