@@ -1,20 +1,43 @@
 
 import { DateTimeFormatter } from '@js-joda/core';
+
 export const TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
+export const DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+export const PT_REGEX = /PT(\d\d?H)?(\d\d?M)?([\d\.S]+)/gi
 
 export function formatDuration( duration ) {
-  var durationText = new Date(duration.seconds() * 1000).toISOString().slice(11, 16)
-  var split = durationText.split(':')
+  let formattedDuration = duration.toString()
+  console.log(formattedDuration)
 
-  var formattedDuration = ""
-  if (parseInt(split[0]) > 0) {
-    formattedDuration += parseInt(split[0]) + "h "
+  const matches = PT_REGEX.exec(formattedDuration)
+  PT_REGEX.lastIndex = 0;  // Reset
+  
+  console.log(matches)
+  if (!matches) {
+    return "Gerade eben"
   }
-  if (parseInt(split[1]) > 0) {
-    formattedDuration += parseInt(split[1]) + "min"
+
+  let hours = matches[1]
+  let minutes = matches[2]
+  let seconds = matches[3]
+
+  formattedDuration = ""
+  if (hours) {
+    hours = hours.replace("H", "h")
+    formattedDuration = hours;
   }
-  if (!formattedDuration.length) {
-    formattedDuration = "gerade eben"
+  if (minutes) {
+    minutes = minutes.replace("M", "min");
+    if (hours) {
+      formattedDuration += " "
+    }
+    formattedDuration += minutes
   }
+  if (seconds && !(hours || minutes)) {
+    seconds = seconds.substring(0, seconds.indexOf('.')) + "sec"
+    formattedDuration = seconds
+  }
+
   return formattedDuration
 }
