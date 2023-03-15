@@ -50,11 +50,16 @@ export default {
       const dateFormatter = DateTimeFormatter.ofPattern('eeee, dd. MMM').withLocale(Locale.GERMAN);
       const timeFormatter = DateTimeFormatter.ofPattern('HH:mm');
 
+      // sort the history in reverse order, meaning that the latest entry is on top
+      const sortedHistory = [...this.history];
+      sortedHistory.forEach(record => record.dateTime = LocalDateTime.parse(record.from))
+      sortedHistory.sort((record1, record2) => record2.dateTime.compareTo(record1.dateTime))
+
       const history = new Array()
       let lastDate;
-      for (const item of this.history) {
+      for (const item of sortedHistory) {
         let record = { ...item }
-        const dateTime = LocalDateTime.parse(item.from);
+        const dateTime = record.dateTime;
         const date = dateTime.toLocalDate();
         let formattedDate = date.format(dateFormatter)
         if (lastDate != formattedDate) {
