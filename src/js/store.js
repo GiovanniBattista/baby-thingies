@@ -71,7 +71,7 @@ function convertFromToLocalDateTime( events ) {
       var duration = Duration.between(from, to)
       var text
       if (event.to) {
-        text = "Dauer: "
+        text = ""
       } else {
         text = "seit "
       }

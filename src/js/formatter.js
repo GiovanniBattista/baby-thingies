@@ -4,7 +4,7 @@ import { DateTimeFormatter } from '@js-joda/core';
 export const TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
 export const DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
-export const PT_REGEX = /PT(\d\d?H)?(\d\d?M)?([\d\.S]+)/gi
+export const PT_REGEX = /PT(\d\d?H)?(\d\d?M)?([\d\.S]+)?/gi
 
 export function formatDuration( duration ) {
   let formattedDuration = duration.toString()
