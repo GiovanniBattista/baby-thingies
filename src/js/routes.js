@@ -1,5 +1,6 @@
 import TemperatureCalculatorPage from '../pages/TemperatureCalculatorPage.vue';
 import NeedsTrackingPage from '../pages/NeedsTrackingPage.vue';
+import SleepCompanyPage from '../pages/SleepCompanyPage.vue'
 import NotFoundPage from '../pages/404.vue';
 
 var routes = [
@@ -10,6 +11,10 @@ var routes = [
   {
     path: '/tracking',
     component: NeedsTrackingPage,
+  },
+  {
+    path: '/sleepcompany',
+    component: SleepCompanyPage,
   },
   {
     path: '(.*)',

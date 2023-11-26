@@ -7,6 +7,7 @@
     <f7-toolbar tabbar labels bottom>
       <f7-link tab-link="#view-watertemp" :tab-link-active="view2Load == 'view-watertemp'" icon-ios="f7:thermometer" icon-aurora="f7:thermometer" icon-md="f7:thermometer" text="Flasche" @click="setActiveTab('view-watertemp')"></f7-link>
       <f7-link tab-link="#view-tracking"  :tab-link-active="view2Load == 'view-tracking'" icon-ios="f7:stopwatch" icon-aurora="f7:stopwatch" icon-md="f7:stopwatch" text="Tracking" @click="setActiveTab('view-tracking')"></f7-link>
+      <f7-link tab-link="#view-sleep"     :tab-link-active="view2Load == 'view-sleepcompany'" icon-ios="f7:clock" icon-aurora="f7:clock" icon-md="f7:clock" text="Sleep" @click="setActiveTab('view-sleepcompany')"></f7-link>
     </f7-toolbar>
 
     <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
@@ -27,6 +28,15 @@
       :tab-active="view2Load == 'view-tracking'" 
       tab 
       url="/tracking"
+    ></f7-view>
+
+    <f7-view
+      id="view-sleepcompany"
+      name="sleepcompany"
+      :main="view2Load == 'view-sleepcompany'" 
+      :tab-active="view2Load == 'view-sleepcompany'" 
+      tab 
+      url="/sleepcompany"
     ></f7-view>
 
   </f7-views>

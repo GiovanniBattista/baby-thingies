@@ -10,22 +10,22 @@
       <f7-row class="margin-bottom">
         <f7-col>
           <div>
-            <needs-tracker-tracking-button :active="recordType === 'Windel'" @click="changeRecordType('Windel')" title="Windel"></needs-tracker-tracking-button>
+            <needs-tracker-tracking-button :active="recordType === 'Windel'" @click="changeRecordType('Windel')" icon="windwl" title="Windel"></needs-tracker-tracking-button>
             <div class="latest-event" v-if="latestDiaper">{{ latestDiaper }}</div>
           </div>
         </f7-col>
         <f7-col>
-          <needs-tracker-tracking-button :active="recordType === 'Schlaf'" @click="changeRecordType('Schlaf')"  title="Schlaf"></needs-tracker-tracking-button>
+          <needs-tracker-tracking-button :active="recordType === 'Schlaf'" @click="changeRecordType('Schlaf')"  icon="schlaf" title="Schlaf"></needs-tracker-tracking-button>
           <div class="latest-event" v-if="latestSleep">{{ latestSleep }}</div>
         </f7-col>
       </f7-row>
       <f7-row>
         <f7-col>
-          <needs-tracker-tracking-button :active="recordType === 'Flasche'" @click="changeRecordType('Flasche')" title="Flasche"></needs-tracker-tracking-button>
+          <needs-tracker-tracking-button :active="recordType === 'Flasche'" @click="changeRecordType('Flasche')" icon="flasche" title="Flasche"></needs-tracker-tracking-button>
           <div class="latest-event" v-if="latestFeed">{{ latestFeed }}</div>
         </f7-col>
         <f7-col>
-          <needs-tracker-tracking-button :active="recordType === 'Essen'" @click="changeRecordType('Essen')"  title="Essen"></needs-tracker-tracking-button>
+          <needs-tracker-tracking-button :active="recordType === 'Essen'" @click="changeRecordType('Essen')" icon="essen" title="Essen"></needs-tracker-tracking-button>
           <div class="latest-event" v-if="latestFood">{{ latestFood }}</div>
         </f7-col>
       </f7-row>

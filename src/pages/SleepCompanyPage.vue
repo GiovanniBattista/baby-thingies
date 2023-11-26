@@ -1,0 +1,72 @@
+<template>
+  <f7-page name="sleepcompany">
+    <f7-navbar title="Sleep Company"></f7-navbar>
+
+    <f7-block>
+      <f7-row class="margin-bottom">
+        <f7-col>
+          <div>
+            <needs-tracker-tracking-button
+              :active="who === 'mommy'"
+              @click="onChangeSleepCompanyClicked('mommy')"
+              icon="mommy"
+              title="Mommy"
+            ></needs-tracker-tracking-button>
+          </div>
+        </f7-col>
+
+        <f7-col>
+          <div>
+            <needs-tracker-tracking-button
+              :active="who === 'daddy'"
+              @click="onChangeSleepCompanyClicked('daddy')"
+              icon="daddy"
+              title="Daddy"
+            ></needs-tracker-tracking-button>
+          </div>
+        </f7-col>
+      </f7-row>
+    </f7-block>
+  </f7-page>
+</template>
+
+<script setup>
+import { LocalDate, ChronoUnit } from '@js-joda/core';
+import { ref } from 'vue'
+
+import NeedsTrackerTrackingButton from './../components/NeedsTrackerTrackingButton.vue'
+
+const persistedData = localStorage.getItem('sleep-company-data') || "{}"
+const data = JSON.parse(persistedData)
+
+let when = LocalDate.now()
+if (data.when) {
+  when = LocalDate.parse(data.when)
+}
+
+const distanceInDays = when.until(LocalDate.now(), ChronoUnit.DAYS)
+const isWho = distanceInDays % 2 == 0;
+
+let who = ref(null)
+if (data.who) {
+  if (isWho) {
+    who.value = data.who
+  } else if (dta.who === 'daddy') {
+    who.value = "mommy"
+  } else {
+    who.value = "mommy"
+  }
+}
+
+function onChangeSleepCompanyClicked( newWho ) {
+  const data = {
+    who: newWho,
+    when: LocalDate.now().toString()
+  }
+  localStorage.setItem('sleep-company-data', JSON.stringify(data))
+  who.value = newWho
+}
+</script>
+
+<style lang="scss" scoped>
+</style>
