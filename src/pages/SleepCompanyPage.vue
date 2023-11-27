@@ -51,10 +51,10 @@ let who = ref(null)
 if (data.who) {
   if (isWho) {
     who.value = data.who
-  } else if (dta.who === 'daddy') {
+  } else if (data.who === 'daddy') {
     who.value = "mommy"
   } else {
-    who.value = "mommy"
+    who.value = "daddy"
   }
 }
 
